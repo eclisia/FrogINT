@@ -1,0 +1,189 @@
+
+MyProject0.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000bc  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000110  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000110  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000140  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000060  00000000  00000000  0000017c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000a0f  00000000  00000000  000001dc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000741  00000000  00000000  00000beb  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000003de  00000000  00000000  0000132c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  0000006c  00000000  00000000  0000170c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000045d  00000000  00000000  00001778  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000000f4  00000000  00000000  00001bd5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000030  00000000  00000000  00001cc9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 39 00 	call	0x72	; 0x72 <main>
+  64:	0c 94 5c 00 	jmp	0xb8	; 0xb8 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <atmel_start_init>:
+/**
+ * Initializes MCU, drivers and middleware in the project
+**/
+void atmel_start_init(void)
+{
+	system_init();
+  6c:	0e 94 47 00 	call	0x8e	; 0x8e <system_init>
+  70:	08 95       	ret
+
+00000072 <main>:
+#include <util/delay.h>
+
+int main(void)
+{
+	/* Initializes MCU, drivers and middleware */
+	atmel_start_init();
+  72:	0e 94 36 00 	call	0x6c	; 0x6c <atmel_start_init>
+	
+	DDRA |=(1<<DDA0);	//A0 as output
+  76:	d0 9a       	sbi	0x1a, 0	; 26
+
+	/* Replace with your application code */
+	while (1) {
+		PINA |=(1<<PINA0);	//inverse bit
+  78:	c8 9a       	sbi	0x19, 0	; 25
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  7a:	2f ef       	ldi	r18, 0xFF	; 255
+  7c:	84 e3       	ldi	r24, 0x34	; 52
+  7e:	9c e0       	ldi	r25, 0x0C	; 12
+  80:	21 50       	subi	r18, 0x01	; 1
+  82:	80 40       	sbci	r24, 0x00	; 0
+  84:	90 40       	sbci	r25, 0x00	; 0
+  86:	e1 f7       	brne	.-8      	; 0x80 <main+0xe>
+  88:	00 c0       	rjmp	.+0      	; 0x8a <main+0x18>
+  8a:	00 00       	nop
+  8c:	f5 cf       	rjmp	.-22     	; 0x78 <main+0x6>
+
+0000008e <system_init>:
+		break;
+	case PORT_DIR_OUT:
+		DDRA |= mask;
+		break;
+	case PORT_DIR_OFF:
+		DDRA &= ~mask;
+  8e:	8a b3       	in	r24, 0x1a	; 26
+  90:	1a ba       	out	0x1a, r1	; 26
+
+		PORTA |= mask;
+  92:	8b b3       	in	r24, 0x1b	; 27
+  94:	8f ef       	ldi	r24, 0xFF	; 255
+  96:	8b bb       	out	0x1b, r24	; 27
+		break;
+	case PORT_DIR_OUT:
+		DDRB |= mask;
+		break;
+	case PORT_DIR_OFF:
+		DDRB &= ~mask;
+  98:	97 b3       	in	r25, 0x17	; 23
+  9a:	17 ba       	out	0x17, r1	; 23
+
+		PORTB |= mask;
+  9c:	98 b3       	in	r25, 0x18	; 24
+  9e:	88 bb       	out	0x18, r24	; 24
+		break;
+	case PORT_DIR_OUT:
+		DDRC |= mask;
+		break;
+	case PORT_DIR_OFF:
+		DDRC &= ~mask;
+  a0:	94 b3       	in	r25, 0x14	; 20
+  a2:	14 ba       	out	0x14, r1	; 20
+
+		PORTC |= mask;
+  a4:	95 b3       	in	r25, 0x15	; 21
+  a6:	85 bb       	out	0x15, r24	; 21
+		break;
+	case PORT_DIR_OUT:
+		DDRD |= mask;
+		break;
+	case PORT_DIR_OFF:
+		DDRD &= ~mask;
+  a8:	91 b3       	in	r25, 0x11	; 17
+  aa:	11 ba       	out	0x11, r1	; 17
+
+		PORTD |= mask;
+  ac:	92 b3       	in	r25, 0x12	; 18
+  ae:	82 bb       	out	0x12, r24	; 18
+	switch (direction) {
+	case PORT_DIR_IN:
+		DDRA &= ~(1 << pin);
+		break;
+	case PORT_DIR_OUT:
+		DDRA |= 1 << pin;
+  b0:	d0 9a       	sbi	0x1a, 0	; 26
+ *                  false = Pin level set to "low" state
+ */
+static inline void PORTA_set_pin_level(const uint8_t pin, const bool level)
+{
+	if (level) {
+		PORTA |= 1 << pin;
+  b2:	d8 9a       	sbi	0x1b, 0	; 27
+ * \return Initialization status.
+ */
+static inline int8_t sysctrl_init()
+{
+
+	MCUCR = (0 << SM2) | (0 << SM1) | (0 << SM0) | // Idle
+  b4:	15 be       	out	0x35, r1	; 53
+  b6:	08 95       	ret
+
+000000b8 <_exit>:
+  b8:	f8 94       	cli
+
+000000ba <__stop_program>:
+  ba:	ff cf       	rjmp	.-2      	; 0xba <__stop_program>
