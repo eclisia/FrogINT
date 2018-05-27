@@ -3,21 +3,21 @@ MyProject0.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000000be  00000000  00000000  00000054  2**1
+  0 .text         000000b6  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  00000112  2**0
+  1 .data         00000000  00800060  00800060  0000010a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  00000112  2**0
+  2 .comment      00000030  00000000  00000000  0000010a  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000144  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000013c  2**2
                   CONTENTS, READONLY
-  4 .debug_info   0000052e  00000000  00000000  00000180  2**0
+  4 .debug_info   0000052e  00000000  00000000  00000178  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_abbrev 000004e7  00000000  00000000  000006ae  2**0
+  5 .debug_abbrev 000004e7  00000000  00000000  000006a6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_line   00000115  00000000  00000000  00000b95  2**0
+  6 .debug_line   00000115  00000000  00000000  00000b8d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_str    000001af  00000000  00000000  00000caa  2**0
+  7 .debug_str    000001af  00000000  00000000  00000ca2  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -52,57 +52,51 @@ Disassembly of section .text:
   5a:	d4 e0       	ldi	r29, 0x04	; 4
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
-  60:	0e 94 38 00 	call	0x70	; 0x70 <main>
-  64:	0c 94 5d 00 	jmp	0xba	; 0xba <_exit>
+  60:	0e 94 36 00 	call	0x6c	; 0x6c <main>
+  64:	0c 94 59 00 	jmp	0xb2	; 0xb2 <_exit>
 
 00000068 <__bad_interrupt>:
   68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-0000006c <atmel_start_init>:
-  6c:	0c 94 48 00 	jmp	0x90	; 0x90 <system_init>
+0000006c <main>:
+  6c:	d0 9a       	sbi	0x1a, 0	; 26
+  6e:	88 9a       	sbi	0x11, 0	; 17
+  70:	89 9a       	sbi	0x11, 1	; 17
+  72:	d8 9a       	sbi	0x1b, 0	; 27
+  74:	2f ef       	ldi	r18, 0xFF	; 255
+  76:	89 e6       	ldi	r24, 0x69	; 105
+  78:	98 e1       	ldi	r25, 0x18	; 24
+  7a:	21 50       	subi	r18, 0x01	; 1
+  7c:	80 40       	sbci	r24, 0x00	; 0
+  7e:	90 40       	sbci	r25, 0x00	; 0
+  80:	e1 f7       	brne	.-8      	; 0x7a <main+0xe>
+  82:	00 c0       	rjmp	.+0      	; 0x84 <main+0x18>
+  84:	00 00       	nop
+  86:	2f ef       	ldi	r18, 0xFF	; 255
+  88:	89 e6       	ldi	r24, 0x69	; 105
+  8a:	98 e1       	ldi	r25, 0x18	; 24
+  8c:	21 50       	subi	r18, 0x01	; 1
+  8e:	80 40       	sbci	r24, 0x00	; 0
+  90:	90 40       	sbci	r25, 0x00	; 0
+  92:	e1 f7       	brne	.-8      	; 0x8c <main+0x20>
+  94:	00 c0       	rjmp	.+0      	; 0x96 <main+0x2a>
+  96:	00 00       	nop
+  98:	90 9a       	sbi	0x12, 0	; 18
+  9a:	91 9a       	sbi	0x12, 1	; 18
+  9c:	2f ef       	ldi	r18, 0xFF	; 255
+  9e:	84 e3       	ldi	r24, 0x34	; 52
+  a0:	9c e0       	ldi	r25, 0x0C	; 12
+  a2:	21 50       	subi	r18, 0x01	; 1
+  a4:	80 40       	sbci	r24, 0x00	; 0
+  a6:	90 40       	sbci	r25, 0x00	; 0
+  a8:	e1 f7       	brne	.-8      	; 0xa2 <main+0x36>
+  aa:	00 c0       	rjmp	.+0      	; 0xac <main+0x40>
+  ac:	00 00       	nop
+  ae:	12 ba       	out	0x12, r1	; 18
+  b0:	e0 cf       	rjmp	.-64     	; 0x72 <main+0x6>
 
-00000070 <main>:
-  70:	0e 94 36 00 	call	0x6c	; 0x6c <atmel_start_init>
-  74:	d0 9a       	sbi	0x1a, 0	; 26
-  76:	88 9a       	sbi	0x11, 0	; 17
-  78:	c8 9a       	sbi	0x19, 0	; 25
-  7a:	80 9a       	sbi	0x10, 0	; 16
-  7c:	2f ef       	ldi	r18, 0xFF	; 255
-  7e:	81 e1       	ldi	r24, 0x11	; 17
-  80:	9a e7       	ldi	r25, 0x7A	; 122
-  82:	21 50       	subi	r18, 0x01	; 1
-  84:	80 40       	sbci	r24, 0x00	; 0
-  86:	90 40       	sbci	r25, 0x00	; 0
-  88:	e1 f7       	brne	.-8      	; 0x82 <main+0x12>
-  8a:	00 c0       	rjmp	.+0      	; 0x8c <main+0x1c>
-  8c:	00 00       	nop
-  8e:	f4 cf       	rjmp	.-24     	; 0x78 <main+0x8>
+000000b2 <_exit>:
+  b2:	f8 94       	cli
 
-00000090 <system_init>:
-  90:	8a b3       	in	r24, 0x1a	; 26
-  92:	1a ba       	out	0x1a, r1	; 26
-  94:	8b b3       	in	r24, 0x1b	; 27
-  96:	8f ef       	ldi	r24, 0xFF	; 255
-  98:	8b bb       	out	0x1b, r24	; 27
-  9a:	97 b3       	in	r25, 0x17	; 23
-  9c:	17 ba       	out	0x17, r1	; 23
-  9e:	98 b3       	in	r25, 0x18	; 24
-  a0:	88 bb       	out	0x18, r24	; 24
-  a2:	94 b3       	in	r25, 0x14	; 20
-  a4:	14 ba       	out	0x14, r1	; 20
-  a6:	95 b3       	in	r25, 0x15	; 21
-  a8:	85 bb       	out	0x15, r24	; 21
-  aa:	91 b3       	in	r25, 0x11	; 17
-  ac:	11 ba       	out	0x11, r1	; 17
-  ae:	92 b3       	in	r25, 0x12	; 18
-  b0:	82 bb       	out	0x12, r24	; 18
-  b2:	d0 9a       	sbi	0x1a, 0	; 26
-  b4:	d8 9a       	sbi	0x1b, 0	; 27
-  b6:	15 be       	out	0x35, r1	; 53
-  b8:	08 95       	ret
-
-000000ba <_exit>:
-  ba:	f8 94       	cli
-
-000000bc <__stop_program>:
-  bc:	ff cf       	rjmp	.-2      	; 0xbc <__stop_program>
+000000b4 <__stop_program>:
+  b4:	ff cf       	rjmp	.-2      	; 0xb4 <__stop_program>
