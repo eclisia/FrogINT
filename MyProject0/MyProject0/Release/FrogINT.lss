@@ -3,23 +3,23 @@ FrogINT.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000216  00000000  00000000  00000074  2**1
+  0 .text         000001c8  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  0000028a  2**0
+  1 .data         00000000  00800060  00800060  0000023c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          0000003c  00800060  00800060  0000028a  2**0
+  2 .bss          0000003c  00800060  00800060  0000023c  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000028a  2**0
+  3 .comment      00000030  00000000  00000000  0000023c  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002bc  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000026c  2**2
                   CONTENTS, READONLY
-  5 .debug_info   0000052e  00000000  00000000  000002f8  2**0
+  5 .debug_info   0000052e  00000000  00000000  000002a8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000004e7  00000000  00000000  00000826  2**0
+  6 .debug_abbrev 000004e7  00000000  00000000  000007d6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000115  00000000  00000000  00000d0d  2**0
+  7 .debug_line   00000115  00000000  00000000  00000cbd  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_str    000001af  00000000  00000000  00000e22  2**0
+  8 .debug_str    000001af  00000000  00000000  00000dd2  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -68,8 +68,8 @@ Disassembly of section .text:
   6a:	ac 39       	cpi	r26, 0x9C	; 156
   6c:	b2 07       	cpc	r27, r18
   6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
-  70:	0e 94 ce 00 	call	0x19c	; 0x19c <main>
-  74:	0c 94 09 01 	jmp	0x212	; 0x212 <_exit>
+  70:	0e 94 d8 00 	call	0x1b0	; 0x1b0 <main>
+  74:	0c 94 e2 00 	jmp	0x1c4	; 0x1c4 <_exit>
 
 00000078 <__bad_interrupt>:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -126,145 +126,130 @@ Disassembly of section .text:
   d2:	41 e0       	ldi	r20, 0x01	; 1
   d4:	0c 94 5d 00 	jmp	0xba	; 0xba <ws2812_setleds_pin>
 
-000000d8 <ws2812_sendarray>:
-  d8:	41 e0       	ldi	r20, 0x01	; 1
-  da:	0c 94 3e 00 	jmp	0x7c	; 0x7c <ws2812_sendarray_mask>
+000000d8 <set_Led_OFF>:
+  d8:	cf 93       	push	r28
+  da:	c8 2f       	mov	r28, r24
+  dc:	cc 23       	and	r28, r28
+  de:	a1 f0       	breq	.+40     	; 0x108 <set_Led_OFF+0x30>
+  e0:	6c 2f       	mov	r22, r28
+  e2:	70 e0       	ldi	r23, 0x00	; 0
+  e4:	fb 01       	movw	r30, r22
+  e6:	31 97       	sbiw	r30, 0x01	; 1
+  e8:	cf 01       	movw	r24, r30
+  ea:	88 0f       	add	r24, r24
+  ec:	99 1f       	adc	r25, r25
+  ee:	e8 0f       	add	r30, r24
+  f0:	f9 1f       	adc	r31, r25
+  f2:	e8 58       	subi	r30, 0x88	; 136
+  f4:	ff 4f       	sbci	r31, 0xFF	; 255
+  f6:	11 82       	std	Z+1, r1	; 0x01
+  f8:	10 82       	st	Z, r1
+  fa:	12 82       	std	Z+2, r1	; 0x02
+  fc:	88 e7       	ldi	r24, 0x78	; 120
+  fe:	90 e0       	ldi	r25, 0x00	; 0
+ 100:	0e 94 69 00 	call	0xd2	; 0xd2 <ws2812_setleds>
+ 104:	c1 50       	subi	r28, 0x01	; 1
+ 106:	ea cf       	rjmp	.-44     	; 0xdc <set_Led_OFF+0x4>
+ 108:	2f ef       	ldi	r18, 0xFF	; 255
+ 10a:	84 e3       	ldi	r24, 0x34	; 52
+ 10c:	9c e0       	ldi	r25, 0x0C	; 12
+ 10e:	21 50       	subi	r18, 0x01	; 1
+ 110:	80 40       	sbci	r24, 0x00	; 0
+ 112:	90 40       	sbci	r25, 0x00	; 0
+ 114:	e1 f7       	brne	.-8      	; 0x10e <set_Led_OFF+0x36>
+ 116:	00 c0       	rjmp	.+0      	; 0x118 <set_Led_OFF+0x40>
+ 118:	00 00       	nop
+ 11a:	cf 91       	pop	r28
+ 11c:	08 95       	ret
 
-000000de <set_Led_OFF>:
-  de:	cf 93       	push	r28
-  e0:	c8 2f       	mov	r28, r24
-  e2:	cc 23       	and	r28, r28
-  e4:	a1 f0       	breq	.+40     	; 0x10e <set_Led_OFF+0x30>
-  e6:	6c 2f       	mov	r22, r28
-  e8:	70 e0       	ldi	r23, 0x00	; 0
-  ea:	fb 01       	movw	r30, r22
-  ec:	31 97       	sbiw	r30, 0x01	; 1
-  ee:	cf 01       	movw	r24, r30
-  f0:	88 0f       	add	r24, r24
-  f2:	99 1f       	adc	r25, r25
-  f4:	e8 0f       	add	r30, r24
-  f6:	f9 1f       	adc	r31, r25
-  f8:	e8 58       	subi	r30, 0x88	; 136
-  fa:	ff 4f       	sbci	r31, 0xFF	; 255
-  fc:	11 82       	std	Z+1, r1	; 0x01
-  fe:	10 82       	st	Z, r1
- 100:	12 82       	std	Z+2, r1	; 0x02
- 102:	88 e7       	ldi	r24, 0x78	; 120
- 104:	90 e0       	ldi	r25, 0x00	; 0
- 106:	0e 94 69 00 	call	0xd2	; 0xd2 <ws2812_setleds>
- 10a:	c1 50       	subi	r28, 0x01	; 1
- 10c:	ea cf       	rjmp	.-44     	; 0xe2 <set_Led_OFF+0x4>
- 10e:	2f ef       	ldi	r18, 0xFF	; 255
- 110:	84 e3       	ldi	r24, 0x34	; 52
- 112:	9c e0       	ldi	r25, 0x0C	; 12
- 114:	21 50       	subi	r18, 0x01	; 1
- 116:	80 40       	sbci	r24, 0x00	; 0
- 118:	90 40       	sbci	r25, 0x00	; 0
- 11a:	e1 f7       	brne	.-8      	; 0x114 <set_Led_OFF+0x36>
- 11c:	00 c0       	rjmp	.+0      	; 0x11e <set_Led_OFF+0x40>
- 11e:	00 00       	nop
- 120:	cf 91       	pop	r28
- 122:	08 95       	ret
+0000011e <Array_Definition>:
+ 11e:	e8 e7       	ldi	r30, 0x78	; 120
+ 120:	f0 e0       	ldi	r31, 0x00	; 0
+ 122:	26 e9       	ldi	r18, 0x96	; 150
+ 124:	21 83       	std	Z+1, r18	; 0x01
+ 126:	20 83       	st	Z, r18
+ 128:	22 83       	std	Z+2, r18	; 0x02
+ 12a:	8f ef       	ldi	r24, 0xFF	; 255
+ 12c:	84 83       	std	Z+4, r24	; 0x04
+ 12e:	13 82       	std	Z+3, r1	; 0x03
+ 130:	15 82       	std	Z+5, r1	; 0x05
+ 132:	87 83       	std	Z+7, r24	; 0x07
+ 134:	94 e6       	ldi	r25, 0x64	; 100
+ 136:	96 83       	std	Z+6, r25	; 0x06
+ 138:	10 86       	std	Z+8, r1	; 0x08
+ 13a:	92 87       	std	Z+10, r25	; 0x0a
+ 13c:	81 87       	std	Z+9, r24	; 0x09
+ 13e:	13 86       	std	Z+11, r1	; 0x0b
+ 140:	15 86       	std	Z+13, r1	; 0x0d
+ 142:	84 87       	std	Z+12, r24	; 0x0c
+ 144:	16 86       	std	Z+14, r1	; 0x0e
+ 146:	10 8a       	std	Z+16, r1	; 0x10
+ 148:	97 87       	std	Z+15, r25	; 0x0f
+ 14a:	81 8b       	std	Z+17, r24	; 0x11
+ 14c:	13 8a       	std	Z+19, r1	; 0x13
+ 14e:	12 8a       	std	Z+18, r1	; 0x12
+ 150:	84 8b       	std	Z+20, r24	; 0x14
+ 152:	96 8b       	std	Z+22, r25	; 0x16
+ 154:	15 8a       	std	Z+21, r1	; 0x15
+ 156:	87 8b       	std	Z+23, r24	; 0x17
+ 158:	91 8f       	std	Z+25, r25	; 0x19
+ 15a:	10 8e       	std	Z+24, r1	; 0x18
+ 15c:	12 8e       	std	Z+26, r1	; 0x1a
+ 15e:	94 8f       	std	Z+28, r25	; 0x1c
+ 160:	23 8f       	std	Z+27, r18	; 0x1b
+ 162:	15 8e       	std	Z+29, r1	; 0x1d
+ 164:	17 8e       	std	Z+31, r1	; 0x1f
+ 166:	97 e1       	ldi	r25, 0x17	; 23
+ 168:	96 8f       	std	Z+30, r25	; 0x1e
+ 16a:	9d e7       	ldi	r25, 0x7D	; 125
+ 16c:	90 a3       	std	Z+32, r25	; 0x20
+ 16e:	12 a2       	std	Z+34, r1	; 0x22
+ 170:	81 a3       	std	Z+33, r24	; 0x21
+ 172:	13 a2       	std	Z+35, r1	; 0x23
+ 174:	08 95       	ret
 
-00000124 <Array_Definition>:
- 124:	e8 e7       	ldi	r30, 0x78	; 120
- 126:	f0 e0       	ldi	r31, 0x00	; 0
- 128:	26 e9       	ldi	r18, 0x96	; 150
- 12a:	21 83       	std	Z+1, r18	; 0x01
- 12c:	20 83       	st	Z, r18
- 12e:	22 83       	std	Z+2, r18	; 0x02
- 130:	8f ef       	ldi	r24, 0xFF	; 255
- 132:	84 83       	std	Z+4, r24	; 0x04
- 134:	13 82       	std	Z+3, r1	; 0x03
- 136:	15 82       	std	Z+5, r1	; 0x05
- 138:	87 83       	std	Z+7, r24	; 0x07
- 13a:	94 e6       	ldi	r25, 0x64	; 100
- 13c:	96 83       	std	Z+6, r25	; 0x06
- 13e:	10 86       	std	Z+8, r1	; 0x08
- 140:	92 87       	std	Z+10, r25	; 0x0a
- 142:	81 87       	std	Z+9, r24	; 0x09
- 144:	13 86       	std	Z+11, r1	; 0x0b
- 146:	15 86       	std	Z+13, r1	; 0x0d
- 148:	84 87       	std	Z+12, r24	; 0x0c
- 14a:	16 86       	std	Z+14, r1	; 0x0e
- 14c:	10 8a       	std	Z+16, r1	; 0x10
- 14e:	97 87       	std	Z+15, r25	; 0x0f
- 150:	81 8b       	std	Z+17, r24	; 0x11
- 152:	13 8a       	std	Z+19, r1	; 0x13
- 154:	12 8a       	std	Z+18, r1	; 0x12
- 156:	84 8b       	std	Z+20, r24	; 0x14
- 158:	96 8b       	std	Z+22, r25	; 0x16
- 15a:	15 8a       	std	Z+21, r1	; 0x15
- 15c:	87 8b       	std	Z+23, r24	; 0x17
- 15e:	91 8f       	std	Z+25, r25	; 0x19
- 160:	10 8e       	std	Z+24, r1	; 0x18
- 162:	12 8e       	std	Z+26, r1	; 0x1a
- 164:	94 8f       	std	Z+28, r25	; 0x1c
- 166:	23 8f       	std	Z+27, r18	; 0x1b
- 168:	15 8e       	std	Z+29, r1	; 0x1d
- 16a:	17 8e       	std	Z+31, r1	; 0x1f
- 16c:	97 e1       	ldi	r25, 0x17	; 23
- 16e:	96 8f       	std	Z+30, r25	; 0x1e
- 170:	9d e7       	ldi	r25, 0x7D	; 125
- 172:	90 a3       	std	Z+32, r25	; 0x20
- 174:	12 a2       	std	Z+34, r1	; 0x22
- 176:	81 a3       	std	Z+33, r24	; 0x21
- 178:	13 a2       	std	Z+35, r1	; 0x23
- 17a:	08 95       	ret
+00000176 <Custom_Definition>:
+ 176:	e8 e7       	ldi	r30, 0x78	; 120
+ 178:	f0 e0       	ldi	r31, 0x00	; 0
+ 17a:	9a e0       	ldi	r25, 0x0A	; 10
+ 17c:	8f ef       	ldi	r24, 0xFF	; 255
+ 17e:	92 a3       	std	Z+34, r25	; 0x22
+ 180:	11 a2       	std	Z+33, r1	; 0x21
+ 182:	83 a3       	std	Z+35, r24	; 0x23
+ 184:	33 97       	sbiw	r30, 0x03	; 3
+ 186:	20 e0       	ldi	r18, 0x00	; 0
+ 188:	e4 35       	cpi	r30, 0x54	; 84
+ 18a:	f2 07       	cpc	r31, r18
+ 18c:	c1 f7       	brne	.-16     	; 0x17e <Custom_Definition+0x8>
+ 18e:	08 95       	ret
 
-0000017c <test_SendArray>:
- 17c:	64 e2       	ldi	r22, 0x24	; 36
- 17e:	70 e0       	ldi	r23, 0x00	; 0
- 180:	88 e7       	ldi	r24, 0x78	; 120
- 182:	90 e0       	ldi	r25, 0x00	; 0
- 184:	0e 94 6c 00 	call	0xd8	; 0xd8 <ws2812_sendarray>
- 188:	2f ef       	ldi	r18, 0xFF	; 255
- 18a:	89 e6       	ldi	r24, 0x69	; 105
- 18c:	98 e1       	ldi	r25, 0x18	; 24
- 18e:	21 50       	subi	r18, 0x01	; 1
- 190:	80 40       	sbci	r24, 0x00	; 0
- 192:	90 40       	sbci	r25, 0x00	; 0
- 194:	e1 f7       	brne	.-8      	; 0x18e <test_SendArray+0x12>
- 196:	00 c0       	rjmp	.+0      	; 0x198 <test_SendArray+0x1c>
- 198:	00 00       	nop
- 19a:	08 95       	ret
+00000190 <test_SendArray>:
+ 190:	64 e2       	ldi	r22, 0x24	; 36
+ 192:	70 e0       	ldi	r23, 0x00	; 0
+ 194:	88 e7       	ldi	r24, 0x78	; 120
+ 196:	90 e0       	ldi	r25, 0x00	; 0
+ 198:	0e 94 69 00 	call	0xd2	; 0xd2 <ws2812_setleds>
+ 19c:	2f ef       	ldi	r18, 0xFF	; 255
+ 19e:	89 e6       	ldi	r24, 0x69	; 105
+ 1a0:	98 e1       	ldi	r25, 0x18	; 24
+ 1a2:	21 50       	subi	r18, 0x01	; 1
+ 1a4:	80 40       	sbci	r24, 0x00	; 0
+ 1a6:	90 40       	sbci	r25, 0x00	; 0
+ 1a8:	e1 f7       	brne	.-8      	; 0x1a2 <test_SendArray+0x12>
+ 1aa:	00 c0       	rjmp	.+0      	; 0x1ac <test_SendArray+0x1c>
+ 1ac:	00 00       	nop
+ 1ae:	08 95       	ret
 
-0000019c <main>:
- 19c:	86 e9       	ldi	r24, 0x96	; 150
- 19e:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <_edata+0x1>
- 1a2:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
- 1a6:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <_edata+0x2>
- 1aa:	8f ef       	ldi	r24, 0xFF	; 255
- 1ac:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <_edata+0x4>
- 1b0:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <_edata+0x3>
- 1b4:	10 92 65 00 	sts	0x0065, r1	; 0x800065 <_edata+0x5>
- 1b8:	80 93 67 00 	sts	0x0067, r24	; 0x800067 <_edata+0x7>
- 1bc:	94 e6       	ldi	r25, 0x64	; 100
- 1be:	90 93 66 00 	sts	0x0066, r25	; 0x800066 <_edata+0x6>
- 1c2:	10 92 68 00 	sts	0x0068, r1	; 0x800068 <_edata+0x8>
- 1c6:	90 93 6a 00 	sts	0x006A, r25	; 0x80006a <_edata+0xa>
- 1ca:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <_edata+0x9>
- 1ce:	10 92 6b 00 	sts	0x006B, r1	; 0x80006b <_edata+0xb>
- 1d2:	10 92 6d 00 	sts	0x006D, r1	; 0x80006d <_edata+0xd>
- 1d6:	80 93 6c 00 	sts	0x006C, r24	; 0x80006c <_edata+0xc>
- 1da:	10 92 6e 00 	sts	0x006E, r1	; 0x80006e <_edata+0xe>
- 1de:	10 92 70 00 	sts	0x0070, r1	; 0x800070 <_edata+0x10>
- 1e2:	90 93 6f 00 	sts	0x006F, r25	; 0x80006f <_edata+0xf>
- 1e6:	80 93 71 00 	sts	0x0071, r24	; 0x800071 <_edata+0x11>
- 1ea:	10 92 73 00 	sts	0x0073, r1	; 0x800073 <_edata+0x13>
- 1ee:	10 92 72 00 	sts	0x0072, r1	; 0x800072 <_edata+0x12>
- 1f2:	80 93 74 00 	sts	0x0074, r24	; 0x800074 <_edata+0x14>
- 1f6:	90 93 76 00 	sts	0x0076, r25	; 0x800076 <_edata+0x16>
- 1fa:	10 92 75 00 	sts	0x0075, r1	; 0x800075 <_edata+0x15>
- 1fe:	80 93 77 00 	sts	0x0077, r24	; 0x800077 <_edata+0x17>
- 202:	8c e0       	ldi	r24, 0x0C	; 12
- 204:	0e 94 6f 00 	call	0xde	; 0xde <set_Led_OFF>
- 208:	0e 94 92 00 	call	0x124	; 0x124 <Array_Definition>
- 20c:	0e 94 be 00 	call	0x17c	; 0x17c <test_SendArray>
- 210:	fd cf       	rjmp	.-6      	; 0x20c <main+0x70>
+000001b0 <main>:
+ 1b0:	8c e0       	ldi	r24, 0x0C	; 12
+ 1b2:	0e 94 6c 00 	call	0xd8	; 0xd8 <set_Led_OFF>
+ 1b6:	0e 94 8f 00 	call	0x11e	; 0x11e <Array_Definition>
+ 1ba:	0e 94 bb 00 	call	0x176	; 0x176 <Custom_Definition>
+ 1be:	0e 94 c8 00 	call	0x190	; 0x190 <test_SendArray>
+ 1c2:	fd cf       	rjmp	.-6      	; 0x1be <main+0xe>
 
-00000212 <_exit>:
- 212:	f8 94       	cli
+000001c4 <_exit>:
+ 1c4:	f8 94       	cli
 
-00000214 <__stop_program>:
- 214:	ff cf       	rjmp	.-2      	; 0x214 <__stop_program>
+000001c6 <__stop_program>:
+ 1c6:	ff cf       	rjmp	.-2      	; 0x1c6 <__stop_program>

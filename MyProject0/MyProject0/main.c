@@ -75,9 +75,30 @@ void Array_Definition(){
 }
 
 
+/**
+ * \brief	This function is only the LED color definition in RGB style 
+ * 
+ * 
+ * \return void
+ */
+void Custom_Definition(){
+	
+	uint8_t i;
+	for (i=LED_NUMBER; i>0;i--)
+	{
+		led[i-1].r=10;
+		led[i-1].g=0;
+		led[i-1].b=255;
+	}
+	
+}
+
 void test_SendArray(){
 	
-	ws2812_sendarray((uint8_t *)led,LED_NUMBER*3);
+	
+	ws2812_setleds((uint8_t *)led,LED_NUMBER*3);
+	
+	//ws2812_sendarray((uint8_t *)led,LED_NUMBER*3);
 	_delay_ms(1000);
 		
 }
@@ -90,33 +111,23 @@ int main(void)
 	uint8_t i, j,k;	//Local Variable for loop
 
 
-	//Color definition as RGB color and record of the color setting into the cRGB Color Struct
-	colors[0].r=150; colors[0].g=150; colors[0].b=150;
-	colors[1].r=255; colors[1].g=000; colors[1].b=000;//red
-	colors[2].r=255; colors[2].g=100; colors[2].b=000;//orange
-	colors[3].r=100; colors[3].g=255; colors[3].b=000;//yellow
-	colors[4].r=000; colors[4].g=255; colors[4].b=000;//green
-	colors[5].r=000; colors[5].g=100; colors[5].b=255;//light blue (türkis)
-	colors[6].r=000; colors[6].g=000; colors[6].b=255;//blue
-	colors[7].r=100; colors[7].g=000; colors[7].b=255;//violet
+
 	
 	//Initialize the LED OFF
 	set_Led_OFF(LED_NUMBER);
 	
 	Array_Definition();
+	Custom_Definition();
 	
 	
-
-	
-	//DDRA |=(1<<DDA0);	//A0 as output
-	//DDRD |=(1<<DDD0);	//A0 as output
-	//DDRD |=(1<<DDD1);	//A0 as output
-
 	/* Replace with your application code */
 	while (1) {
 		
 		
 		test_SendArray();
+
+		
+		
 
 		
 
