@@ -18,18 +18,41 @@
 // For AtmelStudio: Project->Properties->Toolchain->AVR/GNU C Compiler->Symbols. Add symbol F_CPU=xxxxx  without UL, on the contrari of #define declaration
 //F_CPU=8000000  - 8MHz in this case.
 
+
+//Macro definition
 #define LED_NUMBER 12		//Total number of LED in the Neopixel
 #define COLORLENGTH LED_NUMBER/2
+#define F_CPU 8000000UL // 8 MHz
+#define BAUD 9600
+#define MYUBRR F_CPU/16/BAUD-1
 
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include "light_ws2812.h"
+#include "USART-simple.h"
+#include "LED_Operations.h"
 
 
-
+//Definition for Colors & LedStrip
 struct cRGB led[LED_NUMBER];	//Definition of the Structure
 struct cRGB colors[8];			//Definition of Color structure
+
+//String the header of USART communication with a PC
+const char  line[] = "**************************\r\n";
+const char	crlf[] = "\r\n";
+const char  society_name[] = "****Florent Tainturier****\r\n";
+const char	project_name[] = "****FrogINT****\r\n";
+const char	project_version[] = "*******Version V0.1*******\r\n";
+const char  backspace[] = "\b \b";
+const char  prompt[] = "\r\n> ";
+
+//String to inform user through the USART
+const char	text_led[] = "LED PortB0 is switched ON!\r\n";
+const char	text_ledoff[] = "LED PortB0 is switched OFF!\r\n";
+
+
+
 
 
 /**
@@ -86,9 +109,28 @@ void Custom_Definition(){
 	uint8_t i;
 	for (i=LED_NUMBER; i>0;i--)
 	{
-		led[i-1].r=10;
+		led[i-1].r=255;
 		led[i-1].g=0;
-		led[i-1].b=255;
+		led[i-1].b=00;
+	}
+	
+}
+
+
+/**
+ * \brief	This function is only the LED color definition in RGB style 
+ * 
+ * 
+ * \return void
+ */
+void Custom_Definition_GREEN(){
+	
+	uint8_t i;
+	for (i=LED_NUMBER; i>0;i--)
+	{
+		led[i-1].r=0;
+		led[i-1].g=255;
+		led[i-1].b=0;
 	}
 	
 }
@@ -108,16 +150,32 @@ int main(void)
 {
 
 	//Variables
-	uint8_t i, j,k;	//Local Variable for loop
-
+	int8_t i;
+	char data_received;	//local variable to get the character received through the USART
 
 
 	
-	//Initialize the LED OFF
+	//Initialize the Strip LED OFF
 	set_Led_OFF(LED_NUMBER);
 	
-	Array_Definition();
+	//Initialize the Led color
+	//Array_Definition();
 	Custom_Definition();
+	Custom_Definition_GREEN();
+	
+		
+	//Initialization of USART interface
+	USART_Init ( MYUBRR );	//USART initialization
+	setup_led();	//Toggle led initialization
+		
+	//Initial message
+	USART_putstring(line);	//Send Welcome message
+	USART_putstring(society_name);
+	USART_putstring(project_name);
+	USART_putstring(project_version);
+	USART_putstring(line);
+	
+	
 	
 	
 	/* Replace with your application code */
@@ -126,7 +184,31 @@ int main(void)
 		
 		test_SendArray();
 
-		
+		USART_putstring(prompt);	//Prompt
+		data_received=getnextchar();
+				
+		switch (data_received)
+		{
+			case 'h':
+			switchLed(1);
+			Custom_Definition();
+			test_SendArray();
+			USART_putstring(text_led);
+			break;
+			
+			case 'o':
+			switchLed(0);
+			Custom_Definition_GREEN();
+			test_SendArray();
+			USART_putstring(text_ledoff);
+			
+			default:
+			if (isgraph(data_received))
+			{
+				USART_putstring(backspace);	//Permit to erase invalid character
+			}
+			break;
+		}
 		
 
 		

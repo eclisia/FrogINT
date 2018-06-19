@@ -6,6 +6,14 @@ atmel_start.c
 
 driver_isr.c
 
+include\LED_Operations.c
+
+include\light_ws2812.c
+
+include\Rainbow.c
+
+include\USART-simple.c
+
 main.c
 
 src\driver_init.c
