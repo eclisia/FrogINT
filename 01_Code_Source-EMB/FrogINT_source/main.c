@@ -30,7 +30,8 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include "light_ws2812.h"
-#include "USART-All.h"
+//#include "USART-all.h"
+#include "USART-all.h"
 #include "LED_Operations.h"
 
 
@@ -171,6 +172,8 @@ int main(void)
 	//Variables
 	int8_t i;
 	char data_received;	//local variable to get the character received through the USART
+	unsigned char	y[10];	//char with received array
+	unsigned char len;
 
 
 	
@@ -205,18 +208,23 @@ int main(void)
 
 		USART_putstring(prompt);	//Prompt
 		data_received=getnextchar();
+		
+		//len=uartreceive(y, 20);
+		//ReadStringData(y);
+		//USART_putstring( len);
+		
 				
 		//Switch structure used to color LED		
 		switch (data_received)
 		{
-			case 'red':	//h
+			case 'r':	//h
 			switchLed(1);
 			Custom_Definition();
 			test_SendArray();
 			USART_putstring(text_led);
 			break;
 			
-			case 'green': //o
+			case 'g': //o
 			switchLed(0);
 			Custom_Definition_GREEN();
 			test_SendArray();

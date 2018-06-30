@@ -1,7 +1,7 @@
 /*
- * USART-All.c
+ * USART_simple.c
  *
- * Created: 30/06/2018
+ * Created: 28/10/2015 11:33:01
  *  Author: ftainturier
  **********************************************************************************************************************************
  * This C and Header files contains some generic function for USART communication with a PC Terminal (for instance).
@@ -9,7 +9,7 @@
  * The transmit and received functions are for 5 to 8 bits communications - none parity check - with 2 bit stop.
  */ 
 #include <avr/io.h>
-#include "USART-All.h"
+#include "USART-all.h"
 
 /**
  * \brief 
@@ -103,17 +103,15 @@ char getnextchar(void)
 }
 
 
-
-
-
-
 //Receive string through UART
+//http://myncbi.blogspot.com/2012/03/receive-string-through-uart.html
+
 unsigned char * UART1_Rx_Str()
 {
 	unsigned char string[20], x, i = 0;
 
 	//receive the characters until ENTER is pressed (ASCII for ENTER = 13)
-	while((x = USART_Receive()) != 13)
+	while((x = USART_Receive()) != '\n') //13
 	{
 		//and store the received characters into the array string[] one-by-one
 		string[i++] = x;
@@ -124,4 +122,48 @@ unsigned char * UART1_Rx_Str()
 
 	//return the received string
 	return(string);
+}
+
+//received string
+//https://stackoverflow.com/questions/21560230/receiving-char-from-uart-of-avr
+
+unsigned char uartreceive(unsigned char *x, unsigned char size)
+{
+	unsigned char i = 0;
+
+	if (size == 0) return 0;            // return 0 if no space
+
+	while (i < size - 1) {              // check space is available (including additional null char at end)
+		unsigned char c;
+		while ( !(UCSRA & (1<<RXC)) );  // wait for another char - WARNING this will wait forever if nothing is received
+		c = UDR;
+		if (c == '\0') break;           // break on NULL character
+		x[i] = c;                       // write into the supplied buffer
+		i++;
+	}
+	x[i] = 0;                           // ensure string is null terminated
+
+	return i + 1;                       // return number of characters written
+}
+
+
+//this function receive long string chars
+//make sure buffer size is enough
+//firsly read from usart the data and write to string array
+//after compare last data with '\0' if it is null teminate the reading
+//http://alibaspinar-eee.blogspot.com/2013/01/usart-string-transmission-via-atmega-16.html
+void ReadStringData(char *str){
+	
+	char c;
+	do{
+		c=USART_Receive();
+		*str=c;
+		str++;
+	}
+	while(c!='\0');
+	USART_Transmit(str);
+
+
+	return;
+	
 }
