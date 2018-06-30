@@ -49,7 +49,7 @@ C_SRCS +=  \
 ../include/LED_Operations.c \
 ../include/light_ws2812.c \
 ../include/Rainbow.c \
-../include/USART-simple.c \
+../include/USART-all.c \
 ../main.c \
 ../src/driver_init.c
 
@@ -67,7 +67,7 @@ driver_isr.o \
 include/LED_Operations.o \
 include/light_ws2812.o \
 include/Rainbow.o \
-include/USART-simple.o \
+include/USART-all.o \
 main.o \
 src/driver_init.o \
 src/protected_io.o
@@ -78,7 +78,7 @@ driver_isr.o \
 include/LED_Operations.o \
 include/light_ws2812.o \
 include/Rainbow.o \
-include/USART-simple.o \
+include/USART-all.o \
 main.o \
 src/driver_init.o \
 src/protected_io.o
@@ -89,7 +89,7 @@ driver_isr.d \
 include/LED_Operations.d \
 include/light_ws2812.d \
 include/Rainbow.d \
-include/USART-simple.d \
+include/USART-all.d \
 main.d \
 src/driver_init.d \
 src/protected_io.d
@@ -100,7 +100,7 @@ driver_isr.d \
 include/LED_Operations.d \
 include/light_ws2812.d \
 include/Rainbow.d \
-include/USART-simple.d \
+include/USART-all.d \
 main.d \
 src/driver_init.d \
 src/protected_io.d

@@ -30,7 +30,7 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include "light_ws2812.h"
-#include "USART-simple.h"
+#include "USART-All.h"
 #include "LED_Operations.h"
 
 
@@ -145,6 +145,25 @@ void test_SendArray(){
 		
 }
 
+/**
+ * \brief 
+ * 
+ * \param RedINT
+ * \param GreenINT
+ * \param BlueINT
+ * 
+ * \return void
+ */
+void DefineColor(uint8_t RedINT, uint8_t GreenINT, uint8_t BlueINT){
+		uint8_t i;
+		for (i=LED_NUMBER; i>0;i--)
+		{
+			led[i-1].r=RedINT;
+			led[i-1].g=GreenINT;
+			led[i-1].b=BlueINT;
+		}	
+}
+
 
 int main(void)
 {
@@ -187,16 +206,17 @@ int main(void)
 		USART_putstring(prompt);	//Prompt
 		data_received=getnextchar();
 				
+		//Switch structure used to color LED		
 		switch (data_received)
 		{
-			case 'h':
+			case 'red':	//h
 			switchLed(1);
 			Custom_Definition();
 			test_SendArray();
 			USART_putstring(text_led);
 			break;
 			
-			case 'o':
+			case 'green': //o
 			switchLed(0);
 			Custom_Definition_GREEN();
 			test_SendArray();
