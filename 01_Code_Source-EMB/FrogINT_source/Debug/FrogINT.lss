@@ -3,31 +3,31 @@ FrogINT.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000002be  00000000  00000000  00000094  2**1
+  0 .text         000002c6  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         000000b0  00800060  000002be  00000352  2**0
+  1 .data         000000b0  00800060  000002c6  0000035a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          0000003c  00800110  00800110  00000402  2**0
+  2 .bss          0000003c  00800110  00800110  0000040a  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000402  2**0
+  3 .comment      00000030  00000000  00000000  0000040a  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000434  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000043c  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000130  00000000  00000000  00000470  2**0
+  5 .debug_aranges 00000118  00000000  00000000  00000478  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001656  00000000  00000000  000005a0  2**0
+  6 .debug_info   0000153c  00000000  00000000  00000590  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000be5  00000000  00000000  00001bf6  2**0
+  7 .debug_abbrev 00000b60  00000000  00000000  00001acc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000c7d  00000000  00000000  000027db  2**0
+  8 .debug_line   00000bce  00000000  00000000  0000262c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001fc  00000000  00000000  00003458  2**2
+  9 .debug_frame  000001c0  00000000  00000000  000031fc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000642  00000000  00000000  00003654  2**0
+ 10 .debug_str    00000615  00000000  00000000  000033bc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000b70  00000000  00000000  00003c96  2**0
+ 11 .debug_loc    00000a4b  00000000  00000000  000039d1  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000e0  00000000  00000000  00004806  2**0
+ 12 .debug_ranges 000000c8  00000000  00000000  0000441c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -67,7 +67,7 @@ Disassembly of section .text:
   60:	11 e0       	ldi	r17, 0x01	; 1
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	ee eb       	ldi	r30, 0xBE	; 190
+  66:	e6 ec       	ldi	r30, 0xC6	; 198
   68:	f2 e0       	ldi	r31, 0x02	; 2
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
@@ -90,7 +90,7 @@ Disassembly of section .text:
   82:	b2 07       	cpc	r27, r18
   84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
   86:	0e 94 ff 00 	call	0x1fe	; 0x1fe <main>
-  8a:	0c 94 5d 01 	jmp	0x2ba	; 0x2ba <_exit>
+  8a:	0c 94 61 01 	jmp	0x2c2	; 0x2c2 <_exit>
 
 0000008e <__bad_interrupt>:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -300,16 +300,20 @@ void USART_putstring(char* StringPtr){
 00000132 <USART_Receive>:
  * \return unsigned char
  */
-unsigned char USART_Receive( void )
+unsigned char USART_Receive()
 {
 	/* Wait for data to be received */
-	while ( !(UCSRA & (1<<RXC)) )
+	while ( !(UCSRA & (1<<RXC)) );
  132:	5f 9b       	sbis	0x0b, 7	; 11
  134:	fe cf       	rjmp	.-4      	; 0x132 <USART_Receive>
-	;
 	/* Get and return received data from buffer */
 	return UDR;
  136:	8c b1       	in	r24, 0x0c	; 12
+	
+	//while ((UCSRA & (1 << RXC)) == 0);/* Wait till data is received */
+	//return(UDR);			/* Return the byte*/
+	
+	
 }
  138:	08 95       	ret
 
@@ -328,7 +332,7 @@ char getnextchar(void)
 
 	if (isgraph(tmp) || (tmp == ' '))
  142:	90 e0       	ldi	r25, 0x00	; 0
- 144:	0e 94 51 01 	call	0x2a2	; 0x2a2 <isgraph>
+ 144:	0e 94 55 01 	call	0x2aa	; 0x2aa <isgraph>
  148:	89 2b       	or	r24, r25
  14a:	11 f4       	brne	.+4      	; 0x150 <getnextchar+0x16>
  14c:	c0 32       	cpi	r28, 0x20	; 32
@@ -438,9 +442,9 @@ char getnextchar(void)
  1fc:	08 95       	ret
 
 000001fe <main>:
-	unsigned char len;
-
-
+	//Variables
+	int8_t i;
+	char data_received;	//local variable to get the character received through the USART
 	
 	//Initialize the Strip LED OFF
 	set_Led_OFF(LED_NUMBER);
@@ -485,96 +489,102 @@ char getnextchar(void)
  23a:	90 e0       	ldi	r25, 0x00	; 0
  23c:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
 	
-	/* Replace with your application code */
-	while (1) {
+	
+	USART_putstring(prompt);	//Prompt
+ 240:	8e e9       	ldi	r24, 0x9E	; 158
+ 242:	90 e0       	ldi	r25, 0x00	; 0
+ 244:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+
+		
+		
 		
 		
 		test_SendArray();
- 240:	0e 94 ef 00 	call	0x1de	; 0x1de <test_SendArray>
+ 248:	0e 94 ef 00 	call	0x1de	; 0x1de <test_SendArray>
 
 		USART_putstring(prompt);	//Prompt
- 244:	8e e9       	ldi	r24, 0x9E	; 158
- 246:	90 e0       	ldi	r25, 0x00	; 0
- 248:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+ 24c:	8e e9       	ldi	r24, 0x9E	; 158
+ 24e:	90 e0       	ldi	r25, 0x00	; 0
+ 250:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
 		data_received=getnextchar();
- 24c:	0e 94 9d 00 	call	0x13a	; 0x13a <getnextchar>
- 250:	c8 2f       	mov	r28, r24
-		//ReadStringData(y);
-		//USART_putstring( len);
+ 254:	0e 94 9d 00 	call	0x13a	; 0x13a <getnextchar>
+ 258:	c8 2f       	mov	r28, r24
+
+	
 		
 				
 		//Switch structure used to color LED		
 		switch (data_received)
- 252:	87 36       	cpi	r24, 0x67	; 103
- 254:	79 f0       	breq	.+30     	; 0x274 <main+0x76>
- 256:	82 37       	cpi	r24, 0x72	; 114
- 258:	c9 f4       	brne	.+50     	; 0x28c <main+0x8e>
+ 25a:	87 36       	cpi	r24, 0x67	; 103
+ 25c:	79 f0       	breq	.+30     	; 0x27c <main+0x7e>
+ 25e:	82 37       	cpi	r24, 0x72	; 114
+ 260:	c9 f4       	brne	.+50     	; 0x294 <main+0x96>
 		{
 			case 'r':	//h
 			switchLed(1);
- 25a:	81 e0       	ldi	r24, 0x01	; 1
- 25c:	90 e0       	ldi	r25, 0x00	; 0
- 25e:	0e 94 4c 00 	call	0x98	; 0x98 <switchLed>
+ 262:	81 e0       	ldi	r24, 0x01	; 1
+ 264:	90 e0       	ldi	r25, 0x00	; 0
+ 266:	0e 94 4c 00 	call	0x98	; 0x98 <switchLed>
 			Custom_Definition();
- 262:	0e 94 d5 00 	call	0x1aa	; 0x1aa <Custom_Definition>
+ 26a:	0e 94 d5 00 	call	0x1aa	; 0x1aa <Custom_Definition>
 			test_SendArray();
- 266:	0e 94 ef 00 	call	0x1de	; 0x1de <test_SendArray>
+ 26e:	0e 94 ef 00 	call	0x1de	; 0x1de <test_SendArray>
 			USART_putstring(text_led);
- 26a:	81 e8       	ldi	r24, 0x81	; 129
- 26c:	90 e0       	ldi	r25, 0x00	; 0
- 26e:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+ 272:	81 e8       	ldi	r24, 0x81	; 129
+ 274:	90 e0       	ldi	r25, 0x00	; 0
+ 276:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
 			break;
- 272:	e6 cf       	rjmp	.-52     	; 0x240 <main+0x42>
+ 27a:	e6 cf       	rjmp	.-52     	; 0x248 <main+0x4a>
 			
 			case 'g': //o
 			switchLed(0);
- 274:	80 e0       	ldi	r24, 0x00	; 0
- 276:	90 e0       	ldi	r25, 0x00	; 0
- 278:	0e 94 4c 00 	call	0x98	; 0x98 <switchLed>
+ 27c:	80 e0       	ldi	r24, 0x00	; 0
+ 27e:	90 e0       	ldi	r25, 0x00	; 0
+ 280:	0e 94 4c 00 	call	0x98	; 0x98 <switchLed>
 			Custom_Definition_GREEN();
- 27c:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <Custom_Definition_GREEN>
+ 284:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <Custom_Definition_GREEN>
 			test_SendArray();
- 280:	0e 94 ef 00 	call	0x1de	; 0x1de <test_SendArray>
+ 288:	0e 94 ef 00 	call	0x1de	; 0x1de <test_SendArray>
 			USART_putstring(text_ledoff);
- 284:	83 e6       	ldi	r24, 0x63	; 99
- 286:	90 e0       	ldi	r25, 0x00	; 0
- 288:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+ 28c:	83 e6       	ldi	r24, 0x63	; 99
+ 28e:	90 e0       	ldi	r25, 0x00	; 0
+ 290:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
 			
 			default:
 			if (isgraph(data_received))
- 28c:	8c 2f       	mov	r24, r28
- 28e:	90 e0       	ldi	r25, 0x00	; 0
- 290:	0e 94 51 01 	call	0x2a2	; 0x2a2 <isgraph>
- 294:	89 2b       	or	r24, r25
- 296:	a1 f2       	breq	.-88     	; 0x240 <main+0x42>
+ 294:	8c 2f       	mov	r24, r28
+ 296:	90 e0       	ldi	r25, 0x00	; 0
+ 298:	0e 94 55 01 	call	0x2aa	; 0x2aa <isgraph>
+ 29c:	89 2b       	or	r24, r25
+ 29e:	a1 f2       	breq	.-88     	; 0x248 <main+0x4a>
 			{
 				USART_putstring(backspace);	//Permit to erase invalid character
- 298:	83 ea       	ldi	r24, 0xA3	; 163
- 29a:	90 e0       	ldi	r25, 0x00	; 0
- 29c:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
- 2a0:	cf cf       	rjmp	.-98     	; 0x240 <main+0x42>
+ 2a0:	83 ea       	ldi	r24, 0xA3	; 163
+ 2a2:	90 e0       	ldi	r25, 0x00	; 0
+ 2a4:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+ 2a8:	cf cf       	rjmp	.-98     	; 0x248 <main+0x4a>
 
-000002a2 <isgraph>:
- 2a2:	80 32       	cpi	r24, 0x20	; 32
- 2a4:	09 f0       	breq	.+2      	; 0x2a8 <isprint+0x2>
+000002aa <isgraph>:
+ 2aa:	80 32       	cpi	r24, 0x20	; 32
+ 2ac:	09 f0       	breq	.+2      	; 0x2b0 <isprint+0x2>
 
-000002a6 <isprint>:
- 2a6:	91 11       	cpse	r25, r1
- 2a8:	0c 94 5a 01 	jmp	0x2b4	; 0x2b4 <__ctype_isfalse>
- 2ac:	80 52       	subi	r24, 0x20	; 32
- 2ae:	8f 55       	subi	r24, 0x5F	; 95
- 2b0:	d8 f7       	brcc	.-10     	; 0x2a8 <isprint+0x2>
- 2b2:	08 95       	ret
+000002ae <isprint>:
+ 2ae:	91 11       	cpse	r25, r1
+ 2b0:	0c 94 5e 01 	jmp	0x2bc	; 0x2bc <__ctype_isfalse>
+ 2b4:	80 52       	subi	r24, 0x20	; 32
+ 2b6:	8f 55       	subi	r24, 0x5F	; 95
+ 2b8:	d8 f7       	brcc	.-10     	; 0x2b0 <isprint+0x2>
+ 2ba:	08 95       	ret
 
-000002b4 <__ctype_isfalse>:
- 2b4:	99 27       	eor	r25, r25
- 2b6:	88 27       	eor	r24, r24
+000002bc <__ctype_isfalse>:
+ 2bc:	99 27       	eor	r25, r25
+ 2be:	88 27       	eor	r24, r24
 
-000002b8 <__ctype_istrue>:
- 2b8:	08 95       	ret
+000002c0 <__ctype_istrue>:
+ 2c0:	08 95       	ret
 
-000002ba <_exit>:
- 2ba:	f8 94       	cli
+000002c2 <_exit>:
+ 2c2:	f8 94       	cli
 
-000002bc <__stop_program>:
- 2bc:	ff cf       	rjmp	.-2      	; 0x2bc <__stop_program>
+000002c4 <__stop_program>:
+ 2c4:	ff cf       	rjmp	.-2      	; 0x2c4 <__stop_program>

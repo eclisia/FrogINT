@@ -24,13 +24,13 @@
 #define COLORLENGTH LED_NUMBER/2
 #define F_CPU 8000000UL // 8 MHz
 #define BAUD 9600
-#define MYUBRR F_CPU/16/BAUD-1
+//#define MYUBRR F_CPU/16/BAUD-1
+#define MYUBRR (((F_CPU / (BAUD * 16UL))) - 1)
 
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include "light_ws2812.h"
-//#include "USART-all.h"
 #include "USART-all.h"
 #include "LED_Operations.h"
 
@@ -166,16 +166,17 @@ void DefineColor(uint8_t RedINT, uint8_t GreenINT, uint8_t BlueINT){
 }
 
 
+
+
+
+
+
 int main(void)
 {
 
 	//Variables
 	int8_t i;
 	char data_received;	//local variable to get the character received through the USART
-	unsigned char	y[10];	//char with received array
-	unsigned char len;
-
-
 	
 	//Initialize the Strip LED OFF
 	set_Led_OFF(LED_NUMBER);
@@ -198,20 +199,23 @@ int main(void)
 	USART_putstring(line);
 	
 	
-	
+	USART_putstring(prompt);	//Prompt
 	
 	/* Replace with your application code */
 	while (1) {
+		
+		
+
+		
+		
 		
 		
 		test_SendArray();
 
 		USART_putstring(prompt);	//Prompt
 		data_received=getnextchar();
-		
-		//len=uartreceive(y, 20);
-		//ReadStringData(y);
-		//USART_putstring( len);
+
+	
 		
 				
 		//Switch structure used to color LED		

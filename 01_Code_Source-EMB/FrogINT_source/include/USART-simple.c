@@ -9,7 +9,7 @@
  * The transmit and received functions are for 5 to 8 bits communications - none parity check - with 2 bit stop.
  */ 
 #include <avr/io.h>
-#include "USART-all.h"
+#include "USART-simple.h"
 
 /**
  * \brief 
@@ -70,8 +70,6 @@ void USART_Transmit( unsigned char data )
 
 
 
-
-
 /**
  * \brief 
  *  Receiving frames with 5 to 8 Data Bit
@@ -79,18 +77,13 @@ void USART_Transmit( unsigned char data )
  * 
  * \return unsigned char
  */
-unsigned char USART_Receive()
+unsigned char USART_Receive( void )
 {
 	/* Wait for data to be received */
-	while ( !(UCSRA & (1<<RXC)) );
+	while ( !(UCSRA & (1<<RXC)) )
+	;
 	/* Get and return received data from buffer */
 	return UDR;
-	
-	
-	//while ((UCSRA & (1 << RXC)) == 0);/* Wait till data is received */
-	//return(UDR);			/* Return the byte*/
-	
-	
 }
 
 
@@ -108,6 +101,3 @@ char getnextchar(void)
 	}
 	return(tmp);
 }
-
-
-

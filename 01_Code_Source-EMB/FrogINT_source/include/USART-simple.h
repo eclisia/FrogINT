@@ -16,6 +16,5 @@ void USART_Transmit( unsigned char data );
 unsigned char USART_Receive( void );
 char getnextchar(void);
 
-
 #endif /* USART-SIMPLE_H_ */
 
