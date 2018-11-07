@@ -414,7 +414,7 @@ char getnextchar(void)
  1c6:	f1 e0       	ldi	r31, 0x01	; 1
  1c8:	25 e2       	ldi	r18, 0x25	; 37
  1ca:	31 e0       	ldi	r19, 0x01	; 1
- 1cc:	8f ef       	ldi	r24, 0xFF	; 255
+ 1cc:	8c e3       	ldi	r24, 0x3C	; 60
  1ce:	11 82       	std	Z+1, r1	; 0x01
  1d0:	80 83       	st	Z, r24
  1d2:	12 82       	std	Z+2, r1	; 0x02

@@ -130,7 +130,7 @@ void Custom_Definition_GREEN(){
 	for (i=LED_NUMBER; i>0;i--)
 	{
 		led[i-1].r=0;
-		led[i-1].g=255;
+		led[i-1].g=60;
 		led[i-1].b=0;
 	}
 	
