@@ -1,0 +1,255 @@
+
+FrogINT.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001c8  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  0000023c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          0000003c  00800060  00800060  0000023c  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  0000023c  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000026c  2**2
+                  CONTENTS, READONLY
+  5 .debug_info   0000052e  00000000  00000000  000002a8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000004e7  00000000  00000000  000007d6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000115  00000000  00000000  00000cbd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    000001af  00000000  00000000  00000dd2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	ac 39       	cpi	r26, 0x9C	; 156
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 d8 00 	call	0x1b0	; 0x1b0 <main>
+  74:	0c 94 e2 00 	jmp	0x1c4	; 0x1c4 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <ws2812_sendarray_mask>:
+  7c:	2b b3       	in	r18, 0x1b	; 27
+  7e:	34 2f       	mov	r19, r20
+  80:	30 95       	com	r19
+  82:	32 23       	and	r19, r18
+  84:	2b b3       	in	r18, 0x1b	; 27
+  86:	42 2b       	or	r20, r18
+  88:	2a b3       	in	r18, 0x1a	; 26
+  8a:	24 2b       	or	r18, r20
+  8c:	2a bb       	out	0x1a, r18	; 26
+  8e:	2f b7       	in	r18, 0x3f	; 63
+  90:	f8 94       	cli
+  92:	fc 01       	movw	r30, r24
+  94:	68 0f       	add	r22, r24
+  96:	79 1f       	adc	r23, r25
+  98:	e6 17       	cp	r30, r22
+  9a:	f7 07       	cpc	r31, r23
+  9c:	61 f0       	breq	.+24     	; 0xb6 <loop24+0x14>
+  9e:	81 91       	ld	r24, Z+
+  a0:	98 e0       	ldi	r25, 0x08	; 8
+
+000000a2 <loop24>:
+  a2:	4b bb       	out	0x1b, r20	; 27
+  a4:	87 ff       	sbrs	r24, 7
+  a6:	3b bb       	out	0x1b, r19	; 27
+  a8:	88 0f       	add	r24, r24
+  aa:	00 00       	nop
+  ac:	00 c0       	rjmp	.+0      	; 0xae <loop24+0xc>
+  ae:	3b bb       	out	0x1b, r19	; 27
+  b0:	9a 95       	dec	r25
+  b2:	b9 f7       	brne	.-18     	; 0xa2 <loop24>
+  b4:	f1 cf       	rjmp	.-30     	; 0x98 <ws2812_sendarray_mask+0x1c>
+  b6:	2f bf       	out	0x3f, r18	; 63
+  b8:	08 95       	ret
+
+000000ba <ws2812_setleds_pin>:
+  ba:	9b 01       	movw	r18, r22
+  bc:	22 0f       	add	r18, r18
+  be:	33 1f       	adc	r19, r19
+  c0:	62 0f       	add	r22, r18
+  c2:	73 1f       	adc	r23, r19
+  c4:	0e 94 3e 00 	call	0x7c	; 0x7c <ws2812_sendarray_mask>
+  c8:	85 e8       	ldi	r24, 0x85	; 133
+  ca:	8a 95       	dec	r24
+  cc:	f1 f7       	brne	.-4      	; 0xca <ws2812_setleds_pin+0x10>
+  ce:	00 00       	nop
+  d0:	08 95       	ret
+
+000000d2 <ws2812_setleds>:
+  d2:	41 e0       	ldi	r20, 0x01	; 1
+  d4:	0c 94 5d 00 	jmp	0xba	; 0xba <ws2812_setleds_pin>
+
+000000d8 <set_Led_OFF>:
+  d8:	cf 93       	push	r28
+  da:	c8 2f       	mov	r28, r24
+  dc:	cc 23       	and	r28, r28
+  de:	a1 f0       	breq	.+40     	; 0x108 <set_Led_OFF+0x30>
+  e0:	6c 2f       	mov	r22, r28
+  e2:	70 e0       	ldi	r23, 0x00	; 0
+  e4:	fb 01       	movw	r30, r22
+  e6:	31 97       	sbiw	r30, 0x01	; 1
+  e8:	cf 01       	movw	r24, r30
+  ea:	88 0f       	add	r24, r24
+  ec:	99 1f       	adc	r25, r25
+  ee:	e8 0f       	add	r30, r24
+  f0:	f9 1f       	adc	r31, r25
+  f2:	e8 58       	subi	r30, 0x88	; 136
+  f4:	ff 4f       	sbci	r31, 0xFF	; 255
+  f6:	11 82       	std	Z+1, r1	; 0x01
+  f8:	10 82       	st	Z, r1
+  fa:	12 82       	std	Z+2, r1	; 0x02
+  fc:	88 e7       	ldi	r24, 0x78	; 120
+  fe:	90 e0       	ldi	r25, 0x00	; 0
+ 100:	0e 94 69 00 	call	0xd2	; 0xd2 <ws2812_setleds>
+ 104:	c1 50       	subi	r28, 0x01	; 1
+ 106:	ea cf       	rjmp	.-44     	; 0xdc <set_Led_OFF+0x4>
+ 108:	2f ef       	ldi	r18, 0xFF	; 255
+ 10a:	84 e3       	ldi	r24, 0x34	; 52
+ 10c:	9c e0       	ldi	r25, 0x0C	; 12
+ 10e:	21 50       	subi	r18, 0x01	; 1
+ 110:	80 40       	sbci	r24, 0x00	; 0
+ 112:	90 40       	sbci	r25, 0x00	; 0
+ 114:	e1 f7       	brne	.-8      	; 0x10e <set_Led_OFF+0x36>
+ 116:	00 c0       	rjmp	.+0      	; 0x118 <set_Led_OFF+0x40>
+ 118:	00 00       	nop
+ 11a:	cf 91       	pop	r28
+ 11c:	08 95       	ret
+
+0000011e <Array_Definition>:
+ 11e:	e8 e7       	ldi	r30, 0x78	; 120
+ 120:	f0 e0       	ldi	r31, 0x00	; 0
+ 122:	26 e9       	ldi	r18, 0x96	; 150
+ 124:	21 83       	std	Z+1, r18	; 0x01
+ 126:	20 83       	st	Z, r18
+ 128:	22 83       	std	Z+2, r18	; 0x02
+ 12a:	8f ef       	ldi	r24, 0xFF	; 255
+ 12c:	84 83       	std	Z+4, r24	; 0x04
+ 12e:	13 82       	std	Z+3, r1	; 0x03
+ 130:	15 82       	std	Z+5, r1	; 0x05
+ 132:	87 83       	std	Z+7, r24	; 0x07
+ 134:	94 e6       	ldi	r25, 0x64	; 100
+ 136:	96 83       	std	Z+6, r25	; 0x06
+ 138:	10 86       	std	Z+8, r1	; 0x08
+ 13a:	92 87       	std	Z+10, r25	; 0x0a
+ 13c:	81 87       	std	Z+9, r24	; 0x09
+ 13e:	13 86       	std	Z+11, r1	; 0x0b
+ 140:	15 86       	std	Z+13, r1	; 0x0d
+ 142:	84 87       	std	Z+12, r24	; 0x0c
+ 144:	16 86       	std	Z+14, r1	; 0x0e
+ 146:	10 8a       	std	Z+16, r1	; 0x10
+ 148:	97 87       	std	Z+15, r25	; 0x0f
+ 14a:	81 8b       	std	Z+17, r24	; 0x11
+ 14c:	13 8a       	std	Z+19, r1	; 0x13
+ 14e:	12 8a       	std	Z+18, r1	; 0x12
+ 150:	84 8b       	std	Z+20, r24	; 0x14
+ 152:	96 8b       	std	Z+22, r25	; 0x16
+ 154:	15 8a       	std	Z+21, r1	; 0x15
+ 156:	87 8b       	std	Z+23, r24	; 0x17
+ 158:	91 8f       	std	Z+25, r25	; 0x19
+ 15a:	10 8e       	std	Z+24, r1	; 0x18
+ 15c:	12 8e       	std	Z+26, r1	; 0x1a
+ 15e:	94 8f       	std	Z+28, r25	; 0x1c
+ 160:	23 8f       	std	Z+27, r18	; 0x1b
+ 162:	15 8e       	std	Z+29, r1	; 0x1d
+ 164:	17 8e       	std	Z+31, r1	; 0x1f
+ 166:	97 e1       	ldi	r25, 0x17	; 23
+ 168:	96 8f       	std	Z+30, r25	; 0x1e
+ 16a:	9d e7       	ldi	r25, 0x7D	; 125
+ 16c:	90 a3       	std	Z+32, r25	; 0x20
+ 16e:	12 a2       	std	Z+34, r1	; 0x22
+ 170:	81 a3       	std	Z+33, r24	; 0x21
+ 172:	13 a2       	std	Z+35, r1	; 0x23
+ 174:	08 95       	ret
+
+00000176 <Custom_Definition>:
+ 176:	e8 e7       	ldi	r30, 0x78	; 120
+ 178:	f0 e0       	ldi	r31, 0x00	; 0
+ 17a:	9a e0       	ldi	r25, 0x0A	; 10
+ 17c:	8f ef       	ldi	r24, 0xFF	; 255
+ 17e:	92 a3       	std	Z+34, r25	; 0x22
+ 180:	11 a2       	std	Z+33, r1	; 0x21
+ 182:	83 a3       	std	Z+35, r24	; 0x23
+ 184:	33 97       	sbiw	r30, 0x03	; 3
+ 186:	20 e0       	ldi	r18, 0x00	; 0
+ 188:	e4 35       	cpi	r30, 0x54	; 84
+ 18a:	f2 07       	cpc	r31, r18
+ 18c:	c1 f7       	brne	.-16     	; 0x17e <Custom_Definition+0x8>
+ 18e:	08 95       	ret
+
+00000190 <test_SendArray>:
+ 190:	64 e2       	ldi	r22, 0x24	; 36
+ 192:	70 e0       	ldi	r23, 0x00	; 0
+ 194:	88 e7       	ldi	r24, 0x78	; 120
+ 196:	90 e0       	ldi	r25, 0x00	; 0
+ 198:	0e 94 69 00 	call	0xd2	; 0xd2 <ws2812_setleds>
+ 19c:	2f ef       	ldi	r18, 0xFF	; 255
+ 19e:	89 e6       	ldi	r24, 0x69	; 105
+ 1a0:	98 e1       	ldi	r25, 0x18	; 24
+ 1a2:	21 50       	subi	r18, 0x01	; 1
+ 1a4:	80 40       	sbci	r24, 0x00	; 0
+ 1a6:	90 40       	sbci	r25, 0x00	; 0
+ 1a8:	e1 f7       	brne	.-8      	; 0x1a2 <test_SendArray+0x12>
+ 1aa:	00 c0       	rjmp	.+0      	; 0x1ac <test_SendArray+0x1c>
+ 1ac:	00 00       	nop
+ 1ae:	08 95       	ret
+
+000001b0 <main>:
+ 1b0:	8c e0       	ldi	r24, 0x0C	; 12
+ 1b2:	0e 94 6c 00 	call	0xd8	; 0xd8 <set_Led_OFF>
+ 1b6:	0e 94 8f 00 	call	0x11e	; 0x11e <Array_Definition>
+ 1ba:	0e 94 bb 00 	call	0x176	; 0x176 <Custom_Definition>
+ 1be:	0e 94 c8 00 	call	0x190	; 0x190 <test_SendArray>
+ 1c2:	fd cf       	rjmp	.-6      	; 0x1be <main+0xe>
+
+000001c4 <_exit>:
+ 1c4:	f8 94       	cli
+
+000001c6 <__stop_program>:
+ 1c6:	ff cf       	rjmp	.-2      	; 0x1c6 <__stop_program>

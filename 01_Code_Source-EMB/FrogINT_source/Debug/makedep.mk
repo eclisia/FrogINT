@@ -12,7 +12,7 @@ include\light_ws2812.c
 
 include\Rainbow.c
 
-include\USART-simple.c
+include\USART-all.c
 
 main.c
 
