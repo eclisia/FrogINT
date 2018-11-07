@@ -3,31 +3,31 @@ FrogINT.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000002c6  00000000  00000000  00000094  2**1
+  0 .text         000002cc  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         000000b0  00800060  000002c6  0000035a  2**0
+  1 .data         000000c4  00800060  000002cc  00000360  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          0000003c  00800110  00800110  0000040a  2**0
+  2 .bss          0000003c  00800124  00800124  00000424  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000040a  2**0
+  3 .comment      00000030  00000000  00000000  00000424  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000043c  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000454  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000118  00000000  00000000  00000478  2**0
+  5 .debug_aranges 00000118  00000000  00000000  00000490  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000153c  00000000  00000000  00000590  2**0
+  6 .debug_info   00001570  00000000  00000000  000005a8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000b60  00000000  00000000  00001acc  2**0
+  7 .debug_abbrev 00000b60  00000000  00000000  00001b18  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000bce  00000000  00000000  0000262c  2**0
+  8 .debug_line   00000bd4  00000000  00000000  00002678  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001c0  00000000  00000000  000031fc  2**2
+  9 .debug_frame  000001c0  00000000  00000000  0000324c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000615  00000000  00000000  000033bc  2**0
+ 10 .debug_str    00000622  00000000  00000000  0000340c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000a4b  00000000  00000000  000039d1  2**0
+ 11 .debug_loc    00000a4b  00000000  00000000  00003a2e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000c8  00000000  00000000  0000441c  2**0
+ 12 .debug_ranges 000000c8  00000000  00000000  00004479  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -67,18 +67,18 @@ Disassembly of section .text:
   60:	11 e0       	ldi	r17, 0x01	; 1
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	e6 ec       	ldi	r30, 0xC6	; 198
+  66:	ec ec       	ldi	r30, 0xCC	; 204
   68:	f2 e0       	ldi	r31, 0x02	; 2
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
   6e:	0d 92       	st	X+, r0
-  70:	a0 31       	cpi	r26, 0x10	; 16
+  70:	a4 32       	cpi	r26, 0x24	; 36
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
 
 00000076 <__do_clear_bss>:
   76:	21 e0       	ldi	r18, 0x01	; 1
-  78:	a0 e1       	ldi	r26, 0x10	; 16
+  78:	a4 e2       	ldi	r26, 0x24	; 36
   7a:	b1 e0       	ldi	r27, 0x01	; 1
   7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
 
@@ -86,11 +86,11 @@ Disassembly of section .text:
   7e:	1d 92       	st	X+, r1
 
 00000080 <.do_clear_bss_start>:
-  80:	ac 34       	cpi	r26, 0x4C	; 76
+  80:	a0 36       	cpi	r26, 0x60	; 96
   82:	b2 07       	cpc	r27, r18
   84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
   86:	0e 94 ff 00 	call	0x1fe	; 0x1fe <main>
-  8a:	0c 94 61 01 	jmp	0x2c2	; 0x2c2 <_exit>
+  8a:	0c 94 64 01 	jmp	0x2c8	; 0x2c8 <_exit>
 
 0000008e <__bad_interrupt>:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -332,7 +332,7 @@ char getnextchar(void)
 
 	if (isgraph(tmp) || (tmp == ' '))
  142:	90 e0       	ldi	r25, 0x00	; 0
- 144:	0e 94 55 01 	call	0x2aa	; 0x2aa <isgraph>
+ 144:	0e 94 58 01 	call	0x2b0	; 0x2b0 <isgraph>
  148:	89 2b       	or	r24, r25
  14a:	11 f4       	brne	.+4      	; 0x150 <getnextchar+0x16>
  14c:	c0 32       	cpi	r28, 0x20	; 32
@@ -342,7 +342,7 @@ char getnextchar(void)
  150:	8c 2f       	mov	r24, r28
  152:	0e 94 86 00 	call	0x10c	; 0x10c <USART_Transmit>
 		USART_Transmit("\r\n");			//next line
- 156:	80 e6       	ldi	r24, 0x60	; 96
+ 156:	83 e7       	ldi	r24, 0x73	; 115
  158:	90 e0       	ldi	r25, 0x00	; 0
  15a:	0e 94 86 00 	call	0x10c	; 0x10c <USART_Transmit>
 	}
@@ -372,12 +372,12 @@ char getnextchar(void)
  178:	99 1f       	adc	r25, r25
  17a:	e8 0f       	add	r30, r24
  17c:	f9 1f       	adc	r31, r25
- 17e:	e8 5d       	subi	r30, 0xD8	; 216
+ 17e:	e4 5c       	subi	r30, 0xC4	; 196
  180:	fe 4f       	sbci	r31, 0xFE	; 254
  182:	11 82       	std	Z+1, r1	; 0x01
  184:	10 82       	st	Z, r1
  186:	12 82       	std	Z+2, r1	; 0x02
- 188:	88 e2       	ldi	r24, 0x28	; 40
+ 188:	8c e3       	ldi	r24, 0x3C	; 60
  18a:	91 e0       	ldi	r25, 0x01	; 1
  18c:	0e 94 56 00 	call	0xac	; 0xac <ws2812_setleds>
  190:	c1 50       	subi	r28, 0x01	; 1
@@ -395,9 +395,9 @@ char getnextchar(void)
  1a8:	08 95       	ret
 
 000001aa <Custom_Definition>:
- 1aa:	e9 e4       	ldi	r30, 0x49	; 73
+ 1aa:	ed e5       	ldi	r30, 0x5D	; 93
  1ac:	f1 e0       	ldi	r31, 0x01	; 1
- 1ae:	25 e2       	ldi	r18, 0x25	; 37
+ 1ae:	29 e3       	ldi	r18, 0x39	; 57
  1b0:	31 e0       	ldi	r19, 0x01	; 1
  1b2:	8f ef       	ldi	r24, 0xFF	; 255
  1b4:	81 83       	std	Z+1, r24	; 0x01
@@ -410,9 +410,9 @@ char getnextchar(void)
  1c2:	08 95       	ret
 
 000001c4 <Custom_Definition_GREEN>:
- 1c4:	e9 e4       	ldi	r30, 0x49	; 73
+ 1c4:	ed e5       	ldi	r30, 0x5D	; 93
  1c6:	f1 e0       	ldi	r31, 0x01	; 1
- 1c8:	25 e2       	ldi	r18, 0x25	; 37
+ 1c8:	29 e3       	ldi	r18, 0x39	; 57
  1ca:	31 e0       	ldi	r19, 0x01	; 1
  1cc:	8c e3       	ldi	r24, 0x3C	; 60
  1ce:	11 82       	std	Z+1, r1	; 0x01
@@ -427,7 +427,7 @@ char getnextchar(void)
 000001de <test_SendArray>:
  1de:	64 e2       	ldi	r22, 0x24	; 36
  1e0:	70 e0       	ldi	r23, 0x00	; 0
- 1e2:	88 e2       	ldi	r24, 0x28	; 40
+ 1e2:	8c e3       	ldi	r24, 0x3C	; 60
  1e4:	91 e0       	ldi	r25, 0x01	; 1
  1e6:	0e 94 56 00 	call	0xac	; 0xac <ws2812_setleds>
  1ea:	2f ef       	ldi	r18, 0xFF	; 255
@@ -469,29 +469,29 @@ char getnextchar(void)
 		
 	//Initial message
 	USART_putstring(line);	//Send Welcome message
- 218:	83 ef       	ldi	r24, 0xF3	; 243
- 21a:	90 e0       	ldi	r25, 0x00	; 0
+ 218:	86 e0       	ldi	r24, 0x06	; 6
+ 21a:	91 e0       	ldi	r25, 0x01	; 1
  21c:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
 	USART_putstring(society_name);
- 220:	86 ed       	ldi	r24, 0xD6	; 214
+ 220:	89 ee       	ldi	r24, 0xE9	; 233
  222:	90 e0       	ldi	r25, 0x00	; 0
  224:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
 	USART_putstring(project_name);
- 228:	84 ec       	ldi	r24, 0xC4	; 196
+ 228:	87 ed       	ldi	r24, 0xD7	; 215
  22a:	90 e0       	ldi	r25, 0x00	; 0
  22c:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
 	USART_putstring(project_version);
- 230:	87 ea       	ldi	r24, 0xA7	; 167
+ 230:	8a eb       	ldi	r24, 0xBA	; 186
  232:	90 e0       	ldi	r25, 0x00	; 0
  234:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
 	USART_putstring(line);
- 238:	83 ef       	ldi	r24, 0xF3	; 243
- 23a:	90 e0       	ldi	r25, 0x00	; 0
+ 238:	86 e0       	ldi	r24, 0x06	; 6
+ 23a:	91 e0       	ldi	r25, 0x01	; 1
  23c:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
 	
 	
 	USART_putstring(prompt);	//Prompt
- 240:	8e e9       	ldi	r24, 0x9E	; 158
+ 240:	81 eb       	ldi	r24, 0xB1	; 177
  242:	90 e0       	ldi	r25, 0x00	; 0
  244:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
 
@@ -501,90 +501,95 @@ char getnextchar(void)
 		
 		test_SendArray();
  248:	0e 94 ef 00 	call	0x1de	; 0x1de <test_SendArray>
-
-		USART_putstring(prompt);	//Prompt
- 24c:	8e e9       	ldi	r24, 0x9E	; 158
- 24e:	90 e0       	ldi	r25, 0x00	; 0
- 250:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+		
+		//rendre le "prompt" dans le While semble une mauvaise idée
+		//USART_putstring(prompt);	//Prompt
 		data_received=getnextchar();
- 254:	0e 94 9d 00 	call	0x13a	; 0x13a <getnextchar>
- 258:	c8 2f       	mov	r28, r24
-
+ 24c:	0e 94 9d 00 	call	0x13a	; 0x13a <getnextchar>
+ 250:	c8 2f       	mov	r28, r24
+		
 	
 		
 				
-		//Switch structure used to color LED		
+		////Switch structure used to color LED		
 		switch (data_received)
- 25a:	87 36       	cpi	r24, 0x67	; 103
- 25c:	79 f0       	breq	.+30     	; 0x27c <main+0x7e>
- 25e:	82 37       	cpi	r24, 0x72	; 114
- 260:	c9 f4       	brne	.+50     	; 0x294 <main+0x96>
+ 252:	87 36       	cpi	r24, 0x67	; 103
+ 254:	79 f0       	breq	.+30     	; 0x274 <main+0x76>
+ 256:	82 37       	cpi	r24, 0x72	; 114
+ 258:	c9 f4       	brne	.+50     	; 0x28c <main+0x8e>
 		{
 			case 'r':	//h
 			switchLed(1);
- 262:	81 e0       	ldi	r24, 0x01	; 1
- 264:	90 e0       	ldi	r25, 0x00	; 0
- 266:	0e 94 4c 00 	call	0x98	; 0x98 <switchLed>
+ 25a:	81 e0       	ldi	r24, 0x01	; 1
+ 25c:	90 e0       	ldi	r25, 0x00	; 0
+ 25e:	0e 94 4c 00 	call	0x98	; 0x98 <switchLed>
 			Custom_Definition();
- 26a:	0e 94 d5 00 	call	0x1aa	; 0x1aa <Custom_Definition>
+ 262:	0e 94 d5 00 	call	0x1aa	; 0x1aa <Custom_Definition>
 			test_SendArray();
- 26e:	0e 94 ef 00 	call	0x1de	; 0x1de <test_SendArray>
+ 266:	0e 94 ef 00 	call	0x1de	; 0x1de <test_SendArray>
 			USART_putstring(text_led);
- 272:	81 e8       	ldi	r24, 0x81	; 129
- 274:	90 e0       	ldi	r25, 0x00	; 0
- 276:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+ 26a:	84 e9       	ldi	r24, 0x94	; 148
+ 26c:	90 e0       	ldi	r25, 0x00	; 0
+ 26e:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
 			break;
- 27a:	e6 cf       	rjmp	.-52     	; 0x248 <main+0x4a>
+ 272:	ea cf       	rjmp	.-44     	; 0x248 <main+0x4a>
 			
 			case 'g': //o
 			switchLed(0);
- 27c:	80 e0       	ldi	r24, 0x00	; 0
- 27e:	90 e0       	ldi	r25, 0x00	; 0
- 280:	0e 94 4c 00 	call	0x98	; 0x98 <switchLed>
+ 274:	80 e0       	ldi	r24, 0x00	; 0
+ 276:	90 e0       	ldi	r25, 0x00	; 0
+ 278:	0e 94 4c 00 	call	0x98	; 0x98 <switchLed>
 			Custom_Definition_GREEN();
- 284:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <Custom_Definition_GREEN>
+ 27c:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <Custom_Definition_GREEN>
 			test_SendArray();
- 288:	0e 94 ef 00 	call	0x1de	; 0x1de <test_SendArray>
+ 280:	0e 94 ef 00 	call	0x1de	; 0x1de <test_SendArray>
 			USART_putstring(text_ledoff);
- 28c:	83 e6       	ldi	r24, 0x63	; 99
- 28e:	90 e0       	ldi	r25, 0x00	; 0
- 290:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+ 284:	86 e7       	ldi	r24, 0x76	; 118
+ 286:	90 e0       	ldi	r25, 0x00	; 0
+ 288:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
 			
 			default:
 			if (isgraph(data_received))
- 294:	8c 2f       	mov	r24, r28
- 296:	90 e0       	ldi	r25, 0x00	; 0
- 298:	0e 94 55 01 	call	0x2aa	; 0x2aa <isgraph>
- 29c:	89 2b       	or	r24, r25
- 29e:	a1 f2       	breq	.-88     	; 0x248 <main+0x4a>
+ 28c:	d0 e0       	ldi	r29, 0x00	; 0
+ 28e:	ce 01       	movw	r24, r28
+ 290:	0e 94 58 01 	call	0x2b0	; 0x2b0 <isgraph>
+ 294:	89 2b       	or	r24, r25
+ 296:	c1 f2       	breq	.-80     	; 0x248 <main+0x4a>
 			{
 				USART_putstring(backspace);	//Permit to erase invalid character
- 2a0:	83 ea       	ldi	r24, 0xA3	; 163
- 2a2:	90 e0       	ldi	r25, 0x00	; 0
- 2a4:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
- 2a8:	cf cf       	rjmp	.-98     	; 0x248 <main+0x4a>
+ 298:	86 eb       	ldi	r24, 0xB6	; 182
+ 29a:	90 e0       	ldi	r25, 0x00	; 0
+ 29c:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+				USART_putstring(data_received);
+ 2a0:	ce 01       	movw	r24, r28
+ 2a2:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+				USART_putstring(": is NOT RECOGNISED\r\n");	//Permit to erase invalid character
+ 2a6:	80 e6       	ldi	r24, 0x60	; 96
+ 2a8:	90 e0       	ldi	r25, 0x00	; 0
+ 2aa:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+ 2ae:	cc cf       	rjmp	.-104    	; 0x248 <main+0x4a>
 
-000002aa <isgraph>:
- 2aa:	80 32       	cpi	r24, 0x20	; 32
- 2ac:	09 f0       	breq	.+2      	; 0x2b0 <isprint+0x2>
+000002b0 <isgraph>:
+ 2b0:	80 32       	cpi	r24, 0x20	; 32
+ 2b2:	09 f0       	breq	.+2      	; 0x2b6 <isprint+0x2>
 
-000002ae <isprint>:
- 2ae:	91 11       	cpse	r25, r1
- 2b0:	0c 94 5e 01 	jmp	0x2bc	; 0x2bc <__ctype_isfalse>
- 2b4:	80 52       	subi	r24, 0x20	; 32
- 2b6:	8f 55       	subi	r24, 0x5F	; 95
- 2b8:	d8 f7       	brcc	.-10     	; 0x2b0 <isprint+0x2>
- 2ba:	08 95       	ret
-
-000002bc <__ctype_isfalse>:
- 2bc:	99 27       	eor	r25, r25
- 2be:	88 27       	eor	r24, r24
-
-000002c0 <__ctype_istrue>:
+000002b4 <isprint>:
+ 2b4:	91 11       	cpse	r25, r1
+ 2b6:	0c 94 61 01 	jmp	0x2c2	; 0x2c2 <__ctype_isfalse>
+ 2ba:	80 52       	subi	r24, 0x20	; 32
+ 2bc:	8f 55       	subi	r24, 0x5F	; 95
+ 2be:	d8 f7       	brcc	.-10     	; 0x2b6 <isprint+0x2>
  2c0:	08 95       	ret
 
-000002c2 <_exit>:
- 2c2:	f8 94       	cli
+000002c2 <__ctype_isfalse>:
+ 2c2:	99 27       	eor	r25, r25
+ 2c4:	88 27       	eor	r24, r24
 
-000002c4 <__stop_program>:
- 2c4:	ff cf       	rjmp	.-2      	; 0x2c4 <__stop_program>
+000002c6 <__ctype_istrue>:
+ 2c6:	08 95       	ret
+
+000002c8 <_exit>:
+ 2c8:	f8 94       	cli
+
+000002ca <__stop_program>:
+ 2ca:	ff cf       	rjmp	.-2      	; 0x2ca <__stop_program>

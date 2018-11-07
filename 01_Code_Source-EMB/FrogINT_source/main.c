@@ -18,6 +18,8 @@
 // For AtmelStudio: Project->Properties->Toolchain->AVR/GNU C Compiler->Symbols. Add symbol F_CPU=xxxxx  without UL, on the contrari of #define declaration
 //F_CPU=8000000  - 8MHz in this case.
 
+//Penser à configurer le fuse CLK en externe sur Quartz 8MHz - le comportement de l'UART est bien meilleur !
+
 
 //Macro definition
 #define LED_NUMBER 12		//Total number of LED in the Neopixel
@@ -201,6 +203,8 @@ int main(void)
 	
 	USART_putstring(prompt);	//Prompt
 	
+	char receivedData;	// Tmp variable to test loopback UART function
+	
 	/* Replace with your application code */
 	while (1) {
 		
@@ -211,14 +215,29 @@ int main(void)
 		
 		
 		test_SendArray();
+		
+		//rendre le "prompt" dans le While semble une mauvaise idée
+		//USART_putstring(prompt);	//Prompt
+		//data_received=getnextchar();
+		
 
-		USART_putstring(prompt);	//Prompt
-		data_received=getnextchar();
+		/* Wait for data to be received */
+		while ( !(UCSRA & (1<<RXC)) );
+		/* Get and return received data from buffer */
+		data_received= UDR;		
+
+		///* Wait for empty transmit buffer */
+		//while ( !( UCSRA & (1<<UDRE)) )	;
+		///* Put data into buffer, sends the data */
+		//UDR = receivedData;
+
 
 	
 		
+	
+		
 				
-		//Switch structure used to color LED		
+		////Switch structure used to color LED		
 		switch (data_received)
 		{
 			case 'r':	//h
@@ -238,6 +257,8 @@ int main(void)
 			if (isgraph(data_received))
 			{
 				USART_putstring(backspace);	//Permit to erase invalid character
+				USART_putstring(data_received);
+				USART_putstring(": is NOT RECOGNISED\r\n");	//Permit to erase invalid character
 			}
 			break;
 		}
