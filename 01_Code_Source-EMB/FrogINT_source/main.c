@@ -29,6 +29,18 @@
 //#define MYUBRR F_CPU/16/BAUD-1
 #define MYUBRR (((F_CPU / (BAUD * 16UL))) - 1)
 
+#define TRUE 1
+#define FALSE 0
+//Macro for UART
+#define CHAR_NEWLINE '\n'
+#define CHAR_RETURN '\r'
+#define RETURN_NEWLINE "\r\n"
+
+
+//Vector definition
+#define USART_RXC_vect			_VECTOR(11)
+
+
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
@@ -54,6 +66,17 @@ const char  prompt[] = "\r\n> ";
 const char	text_led[] = "LED PortB0 is switched ON!\r\n";
 const char	text_ledoff[] = "LED PortB0 is switched OFF!\r\n";
 
+
+// The inputted commands are never going to be
+// more than 8 chars long. Volatile for the ISR.
+volatile unsigned char data_in[8];
+volatile unsigned char command_in[8];
+
+volatile unsigned char data_count;
+volatile unsigned char command_ready;
+
+// Variables to hold current settings
+unsigned int sensitivity = 223;
 
 
 
@@ -178,7 +201,10 @@ int main(void)
 
 	//Variables
 	int8_t i;
-	char data_received;	//local variable to get the character received through the USART
+	
+	//Enable Interrupt
+	sei();
+
 	
 	//Initialize the Strip LED OFF
 	set_Led_OFF(LED_NUMBER);
@@ -192,6 +218,7 @@ int main(void)
 	//Initialization of USART interface
 	USART_Init ( MYUBRR );	//USART initialization
 	setup_led();	//Toggle led initialization
+
 		
 	//Initial message
 	USART_putstring(line);	//Send Welcome message
@@ -207,7 +234,14 @@ int main(void)
 	
 	/* Replace with your application code */
 	while (1) {
-		
+
+		//if (command_ready == TRUE) {
+			//copy_command();
+			//process_command();
+//
+			//command_ready = FALSE;
+			//USART_putstring("OK");
+		//}
 		
 
 		
@@ -215,21 +249,21 @@ int main(void)
 		
 		
 		test_SendArray();
-		
-		//rendre le "prompt" dans le While semble une mauvaise idée
-		//USART_putstring(prompt);	//Prompt
-		//data_received=getnextchar();
-		
-
-		/* Wait for data to be received */
-		while ( !(UCSRA & (1<<RXC)) );
-		/* Get and return received data from buffer */
-		data_received= UDR;		
-
-		///* Wait for empty transmit buffer */
-		//while ( !( UCSRA & (1<<UDRE)) )	;
-		///* Put data into buffer, sends the data */
-		//UDR = receivedData;
+		//
+		////rendre le "prompt" dans le While semble une mauvaise idée
+		////USART_putstring(prompt);	//Prompt
+		////data_received=getnextchar();
+		//
+//
+		///* Wait for data to be received */
+		//while ( !(UCSRA & (1<<RXC)) );
+		///* Get and return received data from buffer */
+		//data_received= UDR;		
+//
+		/////* Wait for empty transmit buffer */
+		////while ( !( UCSRA & (1<<UDRE)) )	;
+		/////* Put data into buffer, sends the data */
+		////UDR = receivedData;
 
 
 	
@@ -237,35 +271,69 @@ int main(void)
 	
 		
 				
-		////Switch structure used to color LED		
-		switch (data_received)
-		{
-			case 'r':	//h
-			switchLed(1);
-			Custom_Definition();
-			test_SendArray();
-			USART_putstring(text_led);
-			break;
-			
-			case 'g': //o
-			switchLed(0);
-			Custom_Definition_GREEN();
-			test_SendArray();
-			USART_putstring(text_ledoff);
-			
-			default:
-			if (isgraph(data_received))
-			{
-				USART_putstring(backspace);	//Permit to erase invalid character
-				USART_putstring(data_received);
-				USART_putstring(": is NOT RECOGNISED\r\n");	//Permit to erase invalid character
-			}
-			break;
-		}
+		//////Switch structure used to color LED		
+		//switch (data_received)
+		//{
+			//case 'r':	//h
+			//switchLed(1);
+			//Custom_Definition();
+			//test_SendArray();
+			//USART_putstring(text_led);
+			//break;
+			//
+			//case 'g': //o
+			//switchLed(0);
+			//Custom_Definition_GREEN();
+			//test_SendArray();
+			//USART_putstring(text_ledoff);
+			//
+			//default:
+			//if (isgraph(data_received))
+			//{
+				//USART_putstring(backspace);	//Permit to erase invalid character
+				//USART_putstring(data_received);
+				//USART_putstring(": is NOT RECOGNISED\r\n");	//Permit to erase invalid character
+			//}
+			//break;
+		//}
 		
 
 		
 
 			
 	}
+}
+ISR (USART_RXC_vect)
+{
+	//// Get data from the USART in register
+	//data_in[data_count] = UDR0;
+//
+	//// End of line!
+	//if (data_in[data_count] == '\n') {
+		//command_ready = TRUE;
+		//// Reset to 0, ready to go again
+		//data_count = 0;
+		//} else {
+		//data_count++;
+	//}
+	
+	
+
+			
+		
+			
+	char data_received;	//local variable to get the character received through the USART
+	data_received= USART_Receive();
+	USART_putstring(data_received);
+			
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -3,31 +3,31 @@ FrogINT.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000002cc  00000000  00000000  00000094  2**1
+  0 .text         00000266  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         000000c4  00800060  000002cc  00000360  2**0
+  1 .data         0000006e  00800060  00000266  000002fa  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          0000003c  00800124  00800124  00000424  2**0
+  2 .bss          0000003c  008000ce  008000ce  00000368  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000424  2**0
+  3 .comment      00000030  00000000  00000000  00000368  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000454  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000398  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000118  00000000  00000000  00000490  2**0
+  5 .debug_aranges 00000120  00000000  00000000  000003d4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001570  00000000  00000000  000005a8  2**0
+  6 .debug_info   000014e6  00000000  00000000  000004f4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000b60  00000000  00000000  00001b18  2**0
+  7 .debug_abbrev 00000b5e  00000000  00000000  000019da  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000bd4  00000000  00000000  00002678  2**0
+  8 .debug_line   00000ba0  00000000  00000000  00002538  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001c0  00000000  00000000  0000324c  2**2
+  9 .debug_frame  00000218  00000000  00000000  000030d8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000622  00000000  00000000  0000340c  2**0
+ 10 .debug_str    000006d6  00000000  00000000  000032f0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000a4b  00000000  00000000  00003a2e  2**0
+ 11 .debug_loc    00000af5  00000000  00000000  000039c6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000c8  00000000  00000000  00004479  2**0
+ 12 .debug_ranges 000000d0  00000000  00000000  000044bb  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -44,7 +44,7 @@ Disassembly of section .text:
   20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
-  2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  2c:	0c 94 0a 01 	jmp	0x214	; 0x214 <__vector_11>
   30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
@@ -64,532 +64,406 @@ Disassembly of section .text:
   5e:	cd bf       	out	0x3d, r28	; 61
 
 00000060 <__do_copy_data>:
-  60:	11 e0       	ldi	r17, 0x01	; 1
+  60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	ec ec       	ldi	r30, 0xCC	; 204
+  66:	e6 e6       	ldi	r30, 0x66	; 102
   68:	f2 e0       	ldi	r31, 0x02	; 2
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
   6e:	0d 92       	st	X+, r0
-  70:	a4 32       	cpi	r26, 0x24	; 36
+  70:	ae 3c       	cpi	r26, 0xCE	; 206
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
 
 00000076 <__do_clear_bss>:
   76:	21 e0       	ldi	r18, 0x01	; 1
-  78:	a4 e2       	ldi	r26, 0x24	; 36
-  7a:	b1 e0       	ldi	r27, 0x01	; 1
+  78:	ae ec       	ldi	r26, 0xCE	; 206
+  7a:	b0 e0       	ldi	r27, 0x00	; 0
   7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
 
 0000007e <.do_clear_bss_loop>:
   7e:	1d 92       	st	X+, r1
 
 00000080 <.do_clear_bss_start>:
-  80:	a0 36       	cpi	r26, 0x60	; 96
+  80:	aa 30       	cpi	r26, 0x0A	; 10
   82:	b2 07       	cpc	r27, r18
   84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
-  86:	0e 94 ff 00 	call	0x1fe	; 0x1fe <main>
-  8a:	0c 94 64 01 	jmp	0x2c8	; 0x2c8 <_exit>
+  86:	0e 94 e1 00 	call	0x1c2	; 0x1c2 <main>
+  8a:	0c 94 31 01 	jmp	0x262	; 0x262 <_exit>
 
 0000008e <__bad_interrupt>:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000092 <setup_led>:
-#define LedB0_OFF	PORTB &= ~(1<<PB0)	// Set PA0 bit in  0 Logic state
-#define LedB0_Toggle	PORTB ^=(1<<PB0);	//Exclusive OR on the Bit to Toggle its state.
-
-void	setup_led()
-{
-	DDRB = 0xFF;	//All IO of Port A as output
   92:	8f ef       	ldi	r24, 0xFF	; 255
   94:	87 bb       	out	0x17, r24	; 23
   96:	08 95       	ret
 
-00000098 <switchLed>:
-}
+00000098 <ws2812_setleds>:
+  98:	ac 01       	movw	r20, r24
+  9a:	cb 01       	movw	r24, r22
+  9c:	88 0f       	add	r24, r24
+  9e:	99 1f       	adc	r25, r25
+  a0:	68 0f       	add	r22, r24
+  a2:	79 1f       	adc	r23, r25
+  a4:	3b b3       	in	r19, 0x1b	; 27
+  a6:	3e 7f       	andi	r19, 0xFE	; 254
+  a8:	2b b3       	in	r18, 0x1b	; 27
+  aa:	21 60       	ori	r18, 0x01	; 1
+  ac:	9a b3       	in	r25, 0x1a	; 26
+  ae:	92 2b       	or	r25, r18
+  b0:	9a bb       	out	0x1a, r25	; 26
+  b2:	af b7       	in	r26, 0x3f	; 63
+  b4:	f8 94       	cli
+  b6:	61 15       	cp	r22, r1
+  b8:	71 05       	cpc	r23, r1
+  ba:	89 f0       	breq	.+34     	; 0xde <loop57+0x18>
+  bc:	fa 01       	movw	r30, r20
+  be:	64 0f       	add	r22, r20
+  c0:	75 1f       	adc	r23, r21
+  c2:	91 91       	ld	r25, Z+
+  c4:	88 e0       	ldi	r24, 0x08	; 8
 
-void switchLed(unsigned int onoff)
-{
-	switch (onoff)
-  98:	00 97       	sbiw	r24, 0x00	; 0
-  9a:	21 f0       	breq	.+8      	; 0xa4 <switchLed+0xc>
-  9c:	01 97       	sbiw	r24, 0x01	; 1
-  9e:	21 f4       	brne	.+8      	; 0xa8 <switchLed+0x10>
-	{
-		case 1: //Light the Led
-			LedB0_ON;
-  a0:	c0 9a       	sbi	0x18, 0	; 24
-			break;
-  a2:	08 95       	ret
-		case 0:
-			LedB0_OFF;
-  a4:	c0 98       	cbi	0x18, 0	; 24
-			break;
-  a6:	08 95       	ret
-		default:
-			LedB0_OFF;
-  a8:	c0 98       	cbi	0x18, 0	; 24
-  aa:	08 95       	ret
-
-000000ac <ws2812_setleds>:
-#include <avr/io.h>
-#include <util/delay.h>
- 
-// Setleds for standard RGB 
-void inline ws2812_setleds(struct cRGB *ledarray, uint16_t leds)
-{
-  ac:	ac 01       	movw	r20, r24
-   ws2812_setleds_pin(ledarray,leds, _BV(ws2812_pin));
-}
-
-void inline ws2812_setleds_pin(struct cRGB *ledarray, uint16_t leds, uint8_t pinmask)
-{
-  ws2812_sendarray_mask((uint8_t*)ledarray,leds+leds+leds,pinmask);
-  ae:	cb 01       	movw	r24, r22
-  b0:	88 0f       	add	r24, r24
-  b2:	99 1f       	adc	r25, r25
-  b4:	68 0f       	add	r22, r24
-  b6:	79 1f       	adc	r23, r25
-void inline ws2812_sendarray_mask(uint8_t *data,uint16_t datlen,uint8_t maskhi)
-{
-  uint8_t curbyte,ctr,masklo;
-  uint8_t sreg_prev;
-  
-  masklo	=~maskhi&ws2812_PORTREG;
-  b8:	3b b3       	in	r19, 0x1b	; 27
-  ba:	3e 7f       	andi	r19, 0xFE	; 254
-  maskhi |=        ws2812_PORTREG;
-  bc:	2b b3       	in	r18, 0x1b	; 27
-  be:	21 60       	ori	r18, 0x01	; 1
-  
-  ws2812_DDRREG |= maskhi; // Enable output
-  c0:	9a b3       	in	r25, 0x1a	; 26
-  c2:	92 2b       	or	r25, r18
-  c4:	9a bb       	out	0x1a, r25	; 26
-  
-  sreg_prev=SREG;
-  c6:	af b7       	in	r26, 0x3f	; 63
-  cli();  
-  c8:	f8 94       	cli
-
-  while (datlen--) {
-  ca:	61 15       	cp	r22, r1
-  cc:	71 05       	cpc	r23, r1
-  ce:	89 f0       	breq	.+34     	; 0xf2 <loop57+0x18>
-  d0:	fa 01       	movw	r30, r20
-  d2:	64 0f       	add	r22, r20
-  d4:	75 1f       	adc	r23, r21
-    curbyte=*data++;
-  d6:	91 91       	ld	r25, Z+
-    
-    asm volatile(
-  d8:	88 e0       	ldi	r24, 0x08	; 8
-
-000000da <loop57>:
-  da:	2b bb       	out	0x1b, r18	; 27
-  dc:	97 ff       	sbrs	r25, 7
-  de:	3b bb       	out	0x1b, r19	; 27
-  e0:	99 0f       	add	r25, r25
-  e2:	00 00       	nop
-  e4:	00 c0       	rjmp	.+0      	; 0xe6 <loop57+0xc>
-  e6:	3b bb       	out	0x1b, r19	; 27
-  e8:	8a 95       	dec	r24
-  ea:	b9 f7       	brne	.-18     	; 0xda <loop57>
-  ws2812_DDRREG |= maskhi; // Enable output
-  
-  sreg_prev=SREG;
-  cli();  
-
-  while (datlen--) {
-  ec:	e6 17       	cp	r30, r22
-  ee:	f7 07       	cpc	r31, r23
-  f0:	91 f7       	brne	.-28     	; 0xd6 <ws2812_setleds+0x2a>
-    :	"=&d" (ctr)
-    :	"r" (curbyte), "I" (_SFR_IO_ADDR(ws2812_PORTREG)), "r" (maskhi), "r" (masklo)
-    );
-  }
-  
-  SREG=sreg_prev;
-  f2:	af bf       	out	0x3f, r26	; 63
+000000c6 <loop57>:
+  c6:	2b bb       	out	0x1b, r18	; 27
+  c8:	97 ff       	sbrs	r25, 7
+  ca:	3b bb       	out	0x1b, r19	; 27
+  cc:	99 0f       	add	r25, r25
+  ce:	00 00       	nop
+  d0:	00 c0       	rjmp	.+0      	; 0xd2 <loop57+0xc>
+  d2:	3b bb       	out	0x1b, r19	; 27
+  d4:	8a 95       	dec	r24
+  d6:	b9 f7       	brne	.-18     	; 0xc6 <loop57>
+  d8:	e6 17       	cp	r30, r22
+  da:	f7 07       	cpc	r31, r23
+  dc:	91 f7       	brne	.-28     	; 0xc2 <ws2812_setleds+0x2a>
+  de:	af bf       	out	0x3f, r26	; 63
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  f4:	85 e8       	ldi	r24, 0x85	; 133
-  f6:	8a 95       	dec	r24
-  f8:	f1 f7       	brne	.-4      	; 0xf6 <loop57+0x1c>
-  fa:	00 00       	nop
-  fc:	08 95       	ret
+  e0:	85 e8       	ldi	r24, 0x85	; 133
+  e2:	8a 95       	dec	r24
+  e4:	f1 f7       	brne	.-4      	; 0xe2 <loop57+0x1c>
+  e6:	00 00       	nop
+  e8:	08 95       	ret
 
-000000fe <USART_Init>:
+000000ea <USART_Init>:
  * \return void
  */
 void USART_Init( unsigned int ubrr)
 {
 	/* Set baud rate */
 	UBRRH = (unsigned char)(ubrr>>8);
-  fe:	90 bd       	out	0x20, r25	; 32
+  ea:	90 bd       	out	0x20, r25	; 32
 	UBRRL = (unsigned char)ubrr;
- 100:	89 b9       	out	0x09, r24	; 9
+  ec:	89 b9       	out	0x09, r24	; 9
 	/* Enable receiver and transmitter */
 	UCSRB = (1<<RXEN)|(1<<TXEN);
- 102:	88 e1       	ldi	r24, 0x18	; 24
- 104:	8a b9       	out	0x0a, r24	; 10
+  ee:	88 e1       	ldi	r24, 0x18	; 24
+  f0:	8a b9       	out	0x0a, r24	; 10
 	/* Set frame format: 8data, 2stop bit */
 	UCSRC = (1<<URSEL)|(1<<USBS)|(3<<UCSZ0);
- 106:	8e e8       	ldi	r24, 0x8E	; 142
- 108:	80 bd       	out	0x20, r24	; 32
- 10a:	08 95       	ret
+  f2:	8e e8       	ldi	r24, 0x8E	; 142
+  f4:	80 bd       	out	0x20, r24	; 32
+	
+	UCSRB |= (1 << RXCIE ); // Enable the USART Receive Complete interrupt ( USART_RXC )
+  f6:	57 9a       	sbi	0x0a, 7	; 10
+  f8:	08 95       	ret
 
-0000010c <USART_Transmit>:
+000000fa <USART_Transmit>:
  * \return void
  */
 void USART_Transmit( unsigned char data )
 {
 	/* Wait for empty transmit buffer */
 	while ( !( UCSRA & (1<<UDRE)) )
- 10c:	5d 9b       	sbis	0x0b, 5	; 11
- 10e:	fe cf       	rjmp	.-4      	; 0x10c <USART_Transmit>
+  fa:	5d 9b       	sbis	0x0b, 5	; 11
+  fc:	fe cf       	rjmp	.-4      	; 0xfa <USART_Transmit>
 	;
 	/* Put data into buffer, sends the data */
 	UDR = data;
- 110:	8c b9       	out	0x0c, r24	; 12
- 112:	08 95       	ret
+  fe:	8c b9       	out	0x0c, r24	; 12
+ 100:	08 95       	ret
 
-00000114 <USART_putstring>:
+00000102 <USART_putstring>:
  * It is based on the fact, that in C, each string is ended with a null character. This null character is used to determined the end of the string.
  * \param StringPtr
  * 
  * \return void
  */
 void USART_putstring(char* StringPtr){
- 114:	cf 93       	push	r28
- 116:	df 93       	push	r29
- 118:	ec 01       	movw	r28, r24
+ 102:	cf 93       	push	r28
+ 104:	df 93       	push	r29
+ 106:	ec 01       	movw	r28, r24
 	
 	while(*StringPtr != 0x00)			//Here we check if there is still more chars to send, this is done checking the actual char and see if it is different from the null char
- 11a:	88 81       	ld	r24, Y
- 11c:	88 23       	and	r24, r24
- 11e:	31 f0       	breq	.+12     	; 0x12c <USART_putstring+0x18>
- 120:	21 96       	adiw	r28, 0x01	; 1
+ 108:	88 81       	ld	r24, Y
+ 10a:	88 23       	and	r24, r24
+ 10c:	31 f0       	breq	.+12     	; 0x11a <USART_putstring+0x18>
+ 10e:	21 96       	adiw	r28, 0x01	; 1
 	{    
 		USART_Transmit(*StringPtr);	    //Using the simple send function we send one char at a time
- 122:	0e 94 86 00 	call	0x10c	; 0x10c <USART_Transmit>
+ 110:	0e 94 7d 00 	call	0xfa	; 0xfa <USART_Transmit>
  * 
  * \return void
  */
 void USART_putstring(char* StringPtr){
 	
 	while(*StringPtr != 0x00)			//Here we check if there is still more chars to send, this is done checking the actual char and see if it is different from the null char
- 126:	89 91       	ld	r24, Y+
- 128:	81 11       	cpse	r24, r1
- 12a:	fb cf       	rjmp	.-10     	; 0x122 <USART_putstring+0xe>
+ 114:	89 91       	ld	r24, Y+
+ 116:	81 11       	cpse	r24, r1
+ 118:	fb cf       	rjmp	.-10     	; 0x110 <USART_putstring+0xe>
 	{    
 		USART_Transmit(*StringPtr);	    //Using the simple send function we send one char at a time
 		StringPtr++;					//We increment the pointer so we can read the next char
 	}        
 	
 }
- 12c:	df 91       	pop	r29
- 12e:	cf 91       	pop	r28
- 130:	08 95       	ret
+ 11a:	df 91       	pop	r29
+ 11c:	cf 91       	pop	r28
+ 11e:	08 95       	ret
 
-00000132 <USART_Receive>:
+00000120 <USART_Receive>:
  * \return unsigned char
  */
 unsigned char USART_Receive()
 {
 	/* Wait for data to be received */
 	while ( !(UCSRA & (1<<RXC)) );
- 132:	5f 9b       	sbis	0x0b, 7	; 11
- 134:	fe cf       	rjmp	.-4      	; 0x132 <USART_Receive>
+ 120:	5f 9b       	sbis	0x0b, 7	; 11
+ 122:	fe cf       	rjmp	.-4      	; 0x120 <USART_Receive>
 	/* Get and return received data from buffer */
 	return UDR;
- 136:	8c b1       	in	r24, 0x0c	; 12
+ 124:	8c b1       	in	r24, 0x0c	; 12
 	
 	//while ((UCSRA & (1 << RXC)) == 0);/* Wait till data is received */
 	//return(UDR);			/* Return the byte*/
 	
 	
 }
- 138:	08 95       	ret
+ 126:	08 95       	ret
 
-0000013a <getnextchar>:
-
-
-char getnextchar(void)
-{
- 13a:	cf 93       	push	r28
-	char tmp;
-	
-	tmp = USART_Receive();				// get next character
- 13c:	0e 94 99 00 	call	0x132	; 0x132 <USART_Receive>
- 140:	c8 2f       	mov	r28, r24
-	//	tmp = toupper(tmp);					// force to upper case
-
-	if (isgraph(tmp) || (tmp == ' '))
- 142:	90 e0       	ldi	r25, 0x00	; 0
- 144:	0e 94 58 01 	call	0x2b0	; 0x2b0 <isgraph>
- 148:	89 2b       	or	r24, r25
- 14a:	11 f4       	brne	.+4      	; 0x150 <getnextchar+0x16>
- 14c:	c0 32       	cpi	r28, 0x20	; 32
- 14e:	39 f4       	brne	.+14     	; 0x15e <getnextchar+0x24>
-	{
-		USART_Transmit(tmp); 			// Echo the received character
- 150:	8c 2f       	mov	r24, r28
- 152:	0e 94 86 00 	call	0x10c	; 0x10c <USART_Transmit>
-		USART_Transmit("\r\n");			//next line
- 156:	83 e7       	ldi	r24, 0x73	; 115
- 158:	90 e0       	ldi	r25, 0x00	; 0
- 15a:	0e 94 86 00 	call	0x10c	; 0x10c <USART_Transmit>
-	}
-	return(tmp);
-}
- 15e:	8c 2f       	mov	r24, r28
- 160:	cf 91       	pop	r28
- 162:	08 95       	ret
-
-00000164 <set_Led_OFF>:
+00000128 <set_Led_OFF>:
 		{
 			led[i-1].r=RedINT;
 			led[i-1].g=GreenINT;
 			led[i-1].b=BlueINT;
 		}	
 }
- 164:	cf 93       	push	r28
- 166:	c8 2f       	mov	r28, r24
- 168:	88 23       	and	r24, r24
- 16a:	a1 f0       	breq	.+40     	; 0x194 <set_Led_OFF+0x30>
- 16c:	6c 2f       	mov	r22, r28
- 16e:	70 e0       	ldi	r23, 0x00	; 0
- 170:	fb 01       	movw	r30, r22
- 172:	31 97       	sbiw	r30, 0x01	; 1
- 174:	cf 01       	movw	r24, r30
- 176:	88 0f       	add	r24, r24
- 178:	99 1f       	adc	r25, r25
- 17a:	e8 0f       	add	r30, r24
- 17c:	f9 1f       	adc	r31, r25
- 17e:	e4 5c       	subi	r30, 0xC4	; 196
- 180:	fe 4f       	sbci	r31, 0xFE	; 254
- 182:	11 82       	std	Z+1, r1	; 0x01
- 184:	10 82       	st	Z, r1
- 186:	12 82       	std	Z+2, r1	; 0x02
- 188:	8c e3       	ldi	r24, 0x3C	; 60
- 18a:	91 e0       	ldi	r25, 0x01	; 1
- 18c:	0e 94 56 00 	call	0xac	; 0xac <ws2812_setleds>
- 190:	c1 50       	subi	r28, 0x01	; 1
- 192:	61 f7       	brne	.-40     	; 0x16c <set_Led_OFF+0x8>
- 194:	2f ef       	ldi	r18, 0xFF	; 255
- 196:	84 e3       	ldi	r24, 0x34	; 52
- 198:	9c e0       	ldi	r25, 0x0C	; 12
- 19a:	21 50       	subi	r18, 0x01	; 1
- 19c:	80 40       	sbci	r24, 0x00	; 0
- 19e:	90 40       	sbci	r25, 0x00	; 0
- 1a0:	e1 f7       	brne	.-8      	; 0x19a <set_Led_OFF+0x36>
- 1a2:	00 c0       	rjmp	.+0      	; 0x1a4 <set_Led_OFF+0x40>
- 1a4:	00 00       	nop
- 1a6:	cf 91       	pop	r28
- 1a8:	08 95       	ret
+ 128:	cf 93       	push	r28
+ 12a:	c8 2f       	mov	r28, r24
+ 12c:	88 23       	and	r24, r24
+ 12e:	a1 f0       	breq	.+40     	; 0x158 <set_Led_OFF+0x30>
+ 130:	6c 2f       	mov	r22, r28
+ 132:	70 e0       	ldi	r23, 0x00	; 0
+ 134:	fb 01       	movw	r30, r22
+ 136:	31 97       	sbiw	r30, 0x01	; 1
+ 138:	cf 01       	movw	r24, r30
+ 13a:	88 0f       	add	r24, r24
+ 13c:	99 1f       	adc	r25, r25
+ 13e:	e8 0f       	add	r30, r24
+ 140:	f9 1f       	adc	r31, r25
+ 142:	ea 51       	subi	r30, 0x1A	; 26
+ 144:	ff 4f       	sbci	r31, 0xFF	; 255
+ 146:	11 82       	std	Z+1, r1	; 0x01
+ 148:	10 82       	st	Z, r1
+ 14a:	12 82       	std	Z+2, r1	; 0x02
+ 14c:	86 ee       	ldi	r24, 0xE6	; 230
+ 14e:	90 e0       	ldi	r25, 0x00	; 0
+ 150:	0e 94 4c 00 	call	0x98	; 0x98 <ws2812_setleds>
+ 154:	c1 50       	subi	r28, 0x01	; 1
+ 156:	61 f7       	brne	.-40     	; 0x130 <set_Led_OFF+0x8>
+ 158:	2f ef       	ldi	r18, 0xFF	; 255
+ 15a:	84 e3       	ldi	r24, 0x34	; 52
+ 15c:	9c e0       	ldi	r25, 0x0C	; 12
+ 15e:	21 50       	subi	r18, 0x01	; 1
+ 160:	80 40       	sbci	r24, 0x00	; 0
+ 162:	90 40       	sbci	r25, 0x00	; 0
+ 164:	e1 f7       	brne	.-8      	; 0x15e <set_Led_OFF+0x36>
+ 166:	00 c0       	rjmp	.+0      	; 0x168 <set_Led_OFF+0x40>
+ 168:	00 00       	nop
+ 16a:	cf 91       	pop	r28
+ 16c:	08 95       	ret
 
-000001aa <Custom_Definition>:
- 1aa:	ed e5       	ldi	r30, 0x5D	; 93
- 1ac:	f1 e0       	ldi	r31, 0x01	; 1
- 1ae:	29 e3       	ldi	r18, 0x39	; 57
- 1b0:	31 e0       	ldi	r19, 0x01	; 1
- 1b2:	8f ef       	ldi	r24, 0xFF	; 255
- 1b4:	81 83       	std	Z+1, r24	; 0x01
- 1b6:	10 82       	st	Z, r1
- 1b8:	12 82       	std	Z+2, r1	; 0x02
- 1ba:	33 97       	sbiw	r30, 0x03	; 3
- 1bc:	e2 17       	cp	r30, r18
- 1be:	f3 07       	cpc	r31, r19
- 1c0:	c9 f7       	brne	.-14     	; 0x1b4 <Custom_Definition+0xa>
- 1c2:	08 95       	ret
+0000016e <Custom_Definition>:
+ 16e:	e7 e0       	ldi	r30, 0x07	; 7
+ 170:	f1 e0       	ldi	r31, 0x01	; 1
+ 172:	23 ee       	ldi	r18, 0xE3	; 227
+ 174:	30 e0       	ldi	r19, 0x00	; 0
+ 176:	8f ef       	ldi	r24, 0xFF	; 255
+ 178:	81 83       	std	Z+1, r24	; 0x01
+ 17a:	10 82       	st	Z, r1
+ 17c:	12 82       	std	Z+2, r1	; 0x02
+ 17e:	33 97       	sbiw	r30, 0x03	; 3
+ 180:	e2 17       	cp	r30, r18
+ 182:	f3 07       	cpc	r31, r19
+ 184:	c9 f7       	brne	.-14     	; 0x178 <Custom_Definition+0xa>
+ 186:	08 95       	ret
 
-000001c4 <Custom_Definition_GREEN>:
- 1c4:	ed e5       	ldi	r30, 0x5D	; 93
- 1c6:	f1 e0       	ldi	r31, 0x01	; 1
- 1c8:	29 e3       	ldi	r18, 0x39	; 57
- 1ca:	31 e0       	ldi	r19, 0x01	; 1
- 1cc:	8c e3       	ldi	r24, 0x3C	; 60
- 1ce:	11 82       	std	Z+1, r1	; 0x01
- 1d0:	80 83       	st	Z, r24
- 1d2:	12 82       	std	Z+2, r1	; 0x02
- 1d4:	33 97       	sbiw	r30, 0x03	; 3
- 1d6:	e2 17       	cp	r30, r18
- 1d8:	f3 07       	cpc	r31, r19
- 1da:	c9 f7       	brne	.-14     	; 0x1ce <Custom_Definition_GREEN+0xa>
- 1dc:	08 95       	ret
+00000188 <Custom_Definition_GREEN>:
+ 188:	e7 e0       	ldi	r30, 0x07	; 7
+ 18a:	f1 e0       	ldi	r31, 0x01	; 1
+ 18c:	23 ee       	ldi	r18, 0xE3	; 227
+ 18e:	30 e0       	ldi	r19, 0x00	; 0
+ 190:	8c e3       	ldi	r24, 0x3C	; 60
+ 192:	11 82       	std	Z+1, r1	; 0x01
+ 194:	80 83       	st	Z, r24
+ 196:	12 82       	std	Z+2, r1	; 0x02
+ 198:	33 97       	sbiw	r30, 0x03	; 3
+ 19a:	e2 17       	cp	r30, r18
+ 19c:	f3 07       	cpc	r31, r19
+ 19e:	c9 f7       	brne	.-14     	; 0x192 <Custom_Definition_GREEN+0xa>
+ 1a0:	08 95       	ret
 
-000001de <test_SendArray>:
- 1de:	64 e2       	ldi	r22, 0x24	; 36
- 1e0:	70 e0       	ldi	r23, 0x00	; 0
- 1e2:	8c e3       	ldi	r24, 0x3C	; 60
- 1e4:	91 e0       	ldi	r25, 0x01	; 1
- 1e6:	0e 94 56 00 	call	0xac	; 0xac <ws2812_setleds>
- 1ea:	2f ef       	ldi	r18, 0xFF	; 255
- 1ec:	89 e6       	ldi	r24, 0x69	; 105
- 1ee:	98 e1       	ldi	r25, 0x18	; 24
- 1f0:	21 50       	subi	r18, 0x01	; 1
- 1f2:	80 40       	sbci	r24, 0x00	; 0
- 1f4:	90 40       	sbci	r25, 0x00	; 0
- 1f6:	e1 f7       	brne	.-8      	; 0x1f0 <test_SendArray+0x12>
- 1f8:	00 c0       	rjmp	.+0      	; 0x1fa <test_SendArray+0x1c>
- 1fa:	00 00       	nop
- 1fc:	08 95       	ret
+000001a2 <test_SendArray>:
+ 1a2:	64 e2       	ldi	r22, 0x24	; 36
+ 1a4:	70 e0       	ldi	r23, 0x00	; 0
+ 1a6:	86 ee       	ldi	r24, 0xE6	; 230
+ 1a8:	90 e0       	ldi	r25, 0x00	; 0
+ 1aa:	0e 94 4c 00 	call	0x98	; 0x98 <ws2812_setleds>
+ 1ae:	2f ef       	ldi	r18, 0xFF	; 255
+ 1b0:	89 e6       	ldi	r24, 0x69	; 105
+ 1b2:	98 e1       	ldi	r25, 0x18	; 24
+ 1b4:	21 50       	subi	r18, 0x01	; 1
+ 1b6:	80 40       	sbci	r24, 0x00	; 0
+ 1b8:	90 40       	sbci	r25, 0x00	; 0
+ 1ba:	e1 f7       	brne	.-8      	; 0x1b4 <test_SendArray+0x12>
+ 1bc:	00 c0       	rjmp	.+0      	; 0x1be <test_SendArray+0x1c>
+ 1be:	00 00       	nop
+ 1c0:	08 95       	ret
 
-000001fe <main>:
+000001c2 <main>:
+
 	//Variables
 	int8_t i;
-	char data_received;	//local variable to get the character received through the USART
+	
+	//Enable Interrupt
+	sei();
+ 1c2:	78 94       	sei
+
 	
 	//Initialize the Strip LED OFF
 	set_Led_OFF(LED_NUMBER);
- 1fe:	8c e0       	ldi	r24, 0x0C	; 12
- 200:	0e 94 b2 00 	call	0x164	; 0x164 <set_Led_OFF>
+ 1c4:	8c e0       	ldi	r24, 0x0C	; 12
+ 1c6:	0e 94 94 00 	call	0x128	; 0x128 <set_Led_OFF>
 	
 	//Initialize the Led color
 	//Array_Definition();
 	Custom_Definition();
- 204:	0e 94 d5 00 	call	0x1aa	; 0x1aa <Custom_Definition>
+ 1ca:	0e 94 b7 00 	call	0x16e	; 0x16e <Custom_Definition>
 	Custom_Definition_GREEN();
- 208:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <Custom_Definition_GREEN>
+ 1ce:	0e 94 c4 00 	call	0x188	; 0x188 <Custom_Definition_GREEN>
 	
 		
 	//Initialization of USART interface
 	USART_Init ( MYUBRR );	//USART initialization
- 20c:	83 e3       	ldi	r24, 0x33	; 51
- 20e:	90 e0       	ldi	r25, 0x00	; 0
- 210:	0e 94 7f 00 	call	0xfe	; 0xfe <USART_Init>
+ 1d2:	83 e3       	ldi	r24, 0x33	; 51
+ 1d4:	90 e0       	ldi	r25, 0x00	; 0
+ 1d6:	0e 94 75 00 	call	0xea	; 0xea <USART_Init>
 	setup_led();	//Toggle led initialization
- 214:	0e 94 49 00 	call	0x92	; 0x92 <setup_led>
+ 1da:	0e 94 49 00 	call	0x92	; 0x92 <setup_led>
+
 		
 	//Initial message
 	USART_putstring(line);	//Send Welcome message
- 218:	86 e0       	ldi	r24, 0x06	; 6
- 21a:	91 e0       	ldi	r25, 0x01	; 1
- 21c:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+ 1de:	81 eb       	ldi	r24, 0xB1	; 177
+ 1e0:	90 e0       	ldi	r25, 0x00	; 0
+ 1e2:	0e 94 81 00 	call	0x102	; 0x102 <USART_putstring>
 	USART_putstring(society_name);
- 220:	89 ee       	ldi	r24, 0xE9	; 233
- 222:	90 e0       	ldi	r25, 0x00	; 0
- 224:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+ 1e6:	84 e9       	ldi	r24, 0x94	; 148
+ 1e8:	90 e0       	ldi	r25, 0x00	; 0
+ 1ea:	0e 94 81 00 	call	0x102	; 0x102 <USART_putstring>
 	USART_putstring(project_name);
- 228:	87 ed       	ldi	r24, 0xD7	; 215
- 22a:	90 e0       	ldi	r25, 0x00	; 0
- 22c:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+ 1ee:	82 e8       	ldi	r24, 0x82	; 130
+ 1f0:	90 e0       	ldi	r25, 0x00	; 0
+ 1f2:	0e 94 81 00 	call	0x102	; 0x102 <USART_putstring>
 	USART_putstring(project_version);
- 230:	8a eb       	ldi	r24, 0xBA	; 186
- 232:	90 e0       	ldi	r25, 0x00	; 0
- 234:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+ 1f6:	85 e6       	ldi	r24, 0x65	; 101
+ 1f8:	90 e0       	ldi	r25, 0x00	; 0
+ 1fa:	0e 94 81 00 	call	0x102	; 0x102 <USART_putstring>
 	USART_putstring(line);
- 238:	86 e0       	ldi	r24, 0x06	; 6
- 23a:	91 e0       	ldi	r25, 0x01	; 1
- 23c:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+ 1fe:	81 eb       	ldi	r24, 0xB1	; 177
+ 200:	90 e0       	ldi	r25, 0x00	; 0
+ 202:	0e 94 81 00 	call	0x102	; 0x102 <USART_putstring>
 	
 	
 	USART_putstring(prompt);	//Prompt
- 240:	81 eb       	ldi	r24, 0xB1	; 177
- 242:	90 e0       	ldi	r25, 0x00	; 0
- 244:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
+ 206:	80 e6       	ldi	r24, 0x60	; 96
+ 208:	90 e0       	ldi	r25, 0x00	; 0
+ 20a:	0e 94 81 00 	call	0x102	; 0x102 <USART_putstring>
 
 		
 		
 		
 		
 		test_SendArray();
- 248:	0e 94 ef 00 	call	0x1de	; 0x1de <test_SendArray>
+ 20e:	0e 94 d1 00 	call	0x1a2	; 0x1a2 <test_SendArray>
+ 212:	fd cf       	rjmp	.-6      	; 0x20e <main+0x4c>
+
+00000214 <__vector_11>:
+
+			
+	}
+}
+ISR (USART_RXC_vect)
+{
+ 214:	1f 92       	push	r1
+ 216:	0f 92       	push	r0
+ 218:	0f b6       	in	r0, 0x3f	; 63
+ 21a:	0f 92       	push	r0
+ 21c:	11 24       	eor	r1, r1
+ 21e:	2f 93       	push	r18
+ 220:	3f 93       	push	r19
+ 222:	4f 93       	push	r20
+ 224:	5f 93       	push	r21
+ 226:	6f 93       	push	r22
+ 228:	7f 93       	push	r23
+ 22a:	8f 93       	push	r24
+ 22c:	9f 93       	push	r25
+ 22e:	af 93       	push	r26
+ 230:	bf 93       	push	r27
+ 232:	ef 93       	push	r30
+ 234:	ff 93       	push	r31
+
+			
 		
-		//rendre le "prompt" dans le While semble une mauvaise idée
-		//USART_putstring(prompt);	//Prompt
-		data_received=getnextchar();
- 24c:	0e 94 9d 00 	call	0x13a	; 0x13a <getnextchar>
- 250:	c8 2f       	mov	r28, r24
-		
+			
+	char data_received;	//local variable to get the character received through the USART
+	data_received= USART_Receive();
+ 236:	0e 94 90 00 	call	0x120	; 0x120 <USART_Receive>
+	USART_putstring(data_received);
+ 23a:	90 e0       	ldi	r25, 0x00	; 0
+ 23c:	0e 94 81 00 	call	0x102	; 0x102 <USART_putstring>
 	
-		
-				
-		////Switch structure used to color LED		
-		switch (data_received)
- 252:	87 36       	cpi	r24, 0x67	; 103
- 254:	79 f0       	breq	.+30     	; 0x274 <main+0x76>
- 256:	82 37       	cpi	r24, 0x72	; 114
- 258:	c9 f4       	brne	.+50     	; 0x28c <main+0x8e>
-		{
-			case 'r':	//h
-			switchLed(1);
- 25a:	81 e0       	ldi	r24, 0x01	; 1
- 25c:	90 e0       	ldi	r25, 0x00	; 0
- 25e:	0e 94 4c 00 	call	0x98	; 0x98 <switchLed>
-			Custom_Definition();
- 262:	0e 94 d5 00 	call	0x1aa	; 0x1aa <Custom_Definition>
-			test_SendArray();
- 266:	0e 94 ef 00 	call	0x1de	; 0x1de <test_SendArray>
-			USART_putstring(text_led);
- 26a:	84 e9       	ldi	r24, 0x94	; 148
- 26c:	90 e0       	ldi	r25, 0x00	; 0
- 26e:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
-			break;
- 272:	ea cf       	rjmp	.-44     	; 0x248 <main+0x4a>
-			
-			case 'g': //o
-			switchLed(0);
- 274:	80 e0       	ldi	r24, 0x00	; 0
- 276:	90 e0       	ldi	r25, 0x00	; 0
- 278:	0e 94 4c 00 	call	0x98	; 0x98 <switchLed>
-			Custom_Definition_GREEN();
- 27c:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <Custom_Definition_GREEN>
-			test_SendArray();
- 280:	0e 94 ef 00 	call	0x1de	; 0x1de <test_SendArray>
-			USART_putstring(text_ledoff);
- 284:	86 e7       	ldi	r24, 0x76	; 118
- 286:	90 e0       	ldi	r25, 0x00	; 0
- 288:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
-			
-			default:
-			if (isgraph(data_received))
- 28c:	d0 e0       	ldi	r29, 0x00	; 0
- 28e:	ce 01       	movw	r24, r28
- 290:	0e 94 58 01 	call	0x2b0	; 0x2b0 <isgraph>
- 294:	89 2b       	or	r24, r25
- 296:	c1 f2       	breq	.-80     	; 0x248 <main+0x4a>
-			{
-				USART_putstring(backspace);	//Permit to erase invalid character
- 298:	86 eb       	ldi	r24, 0xB6	; 182
- 29a:	90 e0       	ldi	r25, 0x00	; 0
- 29c:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
-				USART_putstring(data_received);
- 2a0:	ce 01       	movw	r24, r28
- 2a2:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
-				USART_putstring(": is NOT RECOGNISED\r\n");	//Permit to erase invalid character
- 2a6:	80 e6       	ldi	r24, 0x60	; 96
- 2a8:	90 e0       	ldi	r25, 0x00	; 0
- 2aa:	0e 94 8a 00 	call	0x114	; 0x114 <USART_putstring>
- 2ae:	cc cf       	rjmp	.-104    	; 0x248 <main+0x4a>
+	
+	
+	
+	
+}
+ 240:	ff 91       	pop	r31
+ 242:	ef 91       	pop	r30
+ 244:	bf 91       	pop	r27
+ 246:	af 91       	pop	r26
+ 248:	9f 91       	pop	r25
+ 24a:	8f 91       	pop	r24
+ 24c:	7f 91       	pop	r23
+ 24e:	6f 91       	pop	r22
+ 250:	5f 91       	pop	r21
+ 252:	4f 91       	pop	r20
+ 254:	3f 91       	pop	r19
+ 256:	2f 91       	pop	r18
+ 258:	0f 90       	pop	r0
+ 25a:	0f be       	out	0x3f, r0	; 63
+ 25c:	0f 90       	pop	r0
+ 25e:	1f 90       	pop	r1
+ 260:	18 95       	reti
 
-000002b0 <isgraph>:
- 2b0:	80 32       	cpi	r24, 0x20	; 32
- 2b2:	09 f0       	breq	.+2      	; 0x2b6 <isprint+0x2>
+00000262 <_exit>:
+ 262:	f8 94       	cli
 
-000002b4 <isprint>:
- 2b4:	91 11       	cpse	r25, r1
- 2b6:	0c 94 61 01 	jmp	0x2c2	; 0x2c2 <__ctype_isfalse>
- 2ba:	80 52       	subi	r24, 0x20	; 32
- 2bc:	8f 55       	subi	r24, 0x5F	; 95
- 2be:	d8 f7       	brcc	.-10     	; 0x2b6 <isprint+0x2>
- 2c0:	08 95       	ret
-
-000002c2 <__ctype_isfalse>:
- 2c2:	99 27       	eor	r25, r25
- 2c4:	88 27       	eor	r24, r24
-
-000002c6 <__ctype_istrue>:
- 2c6:	08 95       	ret
-
-000002c8 <_exit>:
- 2c8:	f8 94       	cli
-
-000002ca <__stop_program>:
- 2ca:	ff cf       	rjmp	.-2      	; 0x2ca <__stop_program>
+00000264 <__stop_program>:
+ 264:	ff cf       	rjmp	.-2      	; 0x264 <__stop_program>

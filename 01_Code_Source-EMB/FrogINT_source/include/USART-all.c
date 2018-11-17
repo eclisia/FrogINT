@@ -27,6 +27,9 @@ void USART_Init( unsigned int ubrr)
 	UCSRB = (1<<RXEN)|(1<<TXEN);
 	/* Set frame format: 8data, 2stop bit */
 	UCSRC = (1<<URSEL)|(1<<USBS)|(3<<UCSZ0);
+	
+	UCSRB |= (1 << RXCIE ); // Enable the USART Receive Complete interrupt ( USART_RXC )
+
 }
 
 
